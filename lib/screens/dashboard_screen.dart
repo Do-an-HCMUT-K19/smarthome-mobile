@@ -6,12 +6,19 @@ class DashBoardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 75,
+        bottomOpacity: 0,
         title: Text('Dashboard'),
-        backgroundColor: Colors.white.withOpacity(0),
-        elevation: 5,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black,
+        elevation: 0,
       ),
       body: Container(
-        child: Text('dashboard'),
+        child: Center(
+            child: Text(
+          'dashboard',
+          style: TextStyle(fontSize: 40),
+        )),
       ),
     );
   }

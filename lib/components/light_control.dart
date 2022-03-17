@@ -5,9 +5,11 @@ import 'package:smart_home/constants/color.dart';
 class LightControl extends StatefulWidget {
   final int order;
   bool isActive;
+  Function callBack;
   LightControl({
     required this.order,
     required this.isActive,
+    required this.callBack,
     Key? key,
   }) : super(key: key);
 
@@ -23,7 +25,7 @@ class _LightControlState extends State<LightControl> {
       child: Column(
         children: [
           Text(
-            'Bulb ${widget.order}',
+            'Bulb ${widget.order + 1}',
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           const SizedBox(
@@ -36,8 +38,7 @@ class _LightControlState extends State<LightControl> {
               width: 55,
               height: 30,
               onToggle: (val) {
-                widget.isActive = val;
-                setState(() {});
+                widget.callBack(widget.order, val);
               })
         ],
       ),

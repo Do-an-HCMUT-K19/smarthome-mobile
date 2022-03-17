@@ -75,6 +75,16 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 margin: EdgeInsets.symmetric(horizontal: 30),
               ),
             ),
+            GestureDetector(
+              onTap: () {
+                widget.selectedPage = 4;
+                widget.change(4);
+              },
+              child: Container(
+                child: Text('Garden', style: getStyle(4)),
+                margin: EdgeInsets.symmetric(horizontal: 30),
+              ),
+            ),
             const SizedBox(width: 110),
           ],
         ),

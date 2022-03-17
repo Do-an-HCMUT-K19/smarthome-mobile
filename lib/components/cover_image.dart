@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CoverImage extends StatelessWidget {
+  final String imgUrl;
   const CoverImage({
+    required this.imgUrl,
     Key? key,
   }) : super(key: key);
 
@@ -10,7 +12,7 @@ class CoverImage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       child: Image.asset(
-        'assets/images/modern-home.jpg',
+        imgUrl,
         fit: BoxFit.fill,
       ),
       height: size.height * 0.5,

@@ -13,6 +13,10 @@ class BedRoomState with ChangeNotifier {
   final bool _isControlTemp = false;
   final bool _isControlHumid = false;
 
+  final String _imgUrl = 'assets/images/bedroom.jpg';
+
+  String get imgUrl => _imgUrl;
+
   bool get isControlTemp => _isControlTemp;
 
   bool get isControlHumid => _isControlHumid;

@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:smart_home/constants/color.dart';
-import 'package:provider/provider.dart';
-import 'package:smart_home/screens/garden_screen.dart';
-import 'package:smart_home/states/garden.dart';
-import 'package:smart_home/states/livingroom.dart';
 
 class MySlider extends StatefulWidget {
   double value;
@@ -25,6 +20,13 @@ class MySlider extends StatefulWidget {
 
 class _MySliderState extends State<MySlider> {
   var isChange = false;
+  var tempValue = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    tempValue = widget.value;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +63,7 @@ class _MySliderState extends State<MySlider> {
                   onTap: () {
                     isChange = false;
                     widget.callBack(widget.value.round().toDouble());
+                    tempValue = widget.value;
                   },
                   child: Container(
                       height: 70,
@@ -106,6 +109,7 @@ class _MySliderState extends State<MySlider> {
                 GestureDetector(
                   onTap: () {
                     isChange = false;
+                    widget.value = tempValue;
                     setState(() {});
                   },
                   child: Container(

@@ -74,7 +74,7 @@ class _GardenControlState extends State<GardenControl> {
             children: [
               GestureDetector(
                 onTap: () {
-                  chosing = 0;
+                  chosing = chosing == 0 ? -1 : 0;
                   setState(() {});
                 },
                 child: FuncButton(
@@ -86,7 +86,8 @@ class _GardenControlState extends State<GardenControl> {
               if (context.read<GardenState>().isControlHumid)
                 GestureDetector(
                   onTap: () {
-                    chosing = 1;
+                    chosing = chosing == 1 ? -1 : 1;
+
                     setState(() {});
                   },
                   child: FuncButton(

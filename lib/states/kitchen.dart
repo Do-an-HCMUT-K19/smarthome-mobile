@@ -17,6 +17,10 @@ class KitchenState with ChangeNotifier {
 
   bool get isControlHumid => _isControlHumid;
 
+  final String _imgUrl = 'assets/images/kitchen.jpg';
+
+  String get imgUrl => _imgUrl;
+
   bool getLightState(int idx) {
     return _lightList[idx];
   }

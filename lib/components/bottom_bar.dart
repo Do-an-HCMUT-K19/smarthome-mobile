@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_home/constants/color.dart';
+import 'package:list_wheel_scroll_view_x/list_wheel_scroll_view_x.dart';
 
 class BottomNavBar extends StatefulWidget {
   Function change;

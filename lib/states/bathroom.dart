@@ -17,6 +17,10 @@ class BathRoomState with ChangeNotifier {
 
   bool get isControlHumid => _isControlHumid;
 
+  final String _imgUrl = 'assets/images/bathroom.jpg';
+
+  String get imgUrl => _imgUrl;
+
   bool getLightState(int idx) {
     return _lightList[idx];
   }
@@ -37,6 +41,7 @@ class BathRoomState with ChangeNotifier {
 
   void changeLightState(int idx, bool value) {
     _lightList[idx] = value;
+    print(value);
     notifyListeners();
   }
 }

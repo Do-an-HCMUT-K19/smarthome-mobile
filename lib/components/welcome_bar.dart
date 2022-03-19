@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:smart_home/constants/color.dart';
 import 'package:smart_home/screens/dashboard_screen.dart';
 import 'package:smart_home/smart_home_icon_icons.dart';
+import 'package:smart_home/states/main_bottom_bar.dart';
+import 'package:provider/provider.dart';
 
 class WelcomBar extends StatelessWidget {
   const WelcomBar({
@@ -28,12 +30,12 @@ class WelcomBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
           Expanded(
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Text(
                     'Welcome home,',
                     style: TextStyle(
@@ -54,16 +56,17 @@ class WelcomBar extends StatelessWidget {
           Container(
             child: IconButton(
               onPressed: () {
+                context.read<BottomBarState>().changePage(0);
                 Navigator.of(context).push(MaterialPageRoute(builder: (_) {
                   return DashBoardScreen();
                 }));
               },
-              icon: Icon(
+              icon: const Icon(
                 SmartHomeIcon.dashboard,
                 color: Colors.white,
               ),
             ),
-            margin: EdgeInsets.all(30),
+            margin: const EdgeInsets.all(30),
           )
         ],
       ),

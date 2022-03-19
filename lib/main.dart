@@ -12,6 +12,7 @@ import 'package:smart_home/states/bedroom.dart';
 import 'package:smart_home/states/garden.dart';
 import 'package:smart_home/states/kitchen.dart';
 import 'package:smart_home/states/livingroom.dart';
+import 'package:smart_home/states/main_bottom_bar.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -31,6 +32,9 @@ void main() {
       ChangeNotifierProvider(
         create: (_) => LivingRoomState(),
       ),
+      ChangeNotifierProvider(
+        create: (_) => BottomBarState(),
+      )
     ],
     child: MainApp(),
   ));
@@ -67,11 +71,8 @@ class _MainAppState extends State<MainApp> {
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
-          body: pages[_selectedPage],
-          bottomNavigationBar: BottomNavBar(
-            change: changePage,
-            selectedPage: _selectedPage,
-          ),
+          body: pages[context.watch<BottomBarState>().chosenPage],
+          bottomNavigationBar: BottomNavBar(),
         ),
       ),
     );

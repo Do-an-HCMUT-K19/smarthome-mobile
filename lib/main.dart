@@ -14,7 +14,25 @@ import 'package:smart_home/states/kitchen.dart';
 import 'package:smart_home/states/livingroom.dart';
 import 'package:smart_home/states/main_bottom_bar.dart';
 
-void main() {
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // print("SJDAKHA");
+  // Testing connection
+  FirebaseFirestore.instance.collection('devices').doc("QfgPfit0CczPBxW8goul").get()
+      .then((value) {
+    var temp = value.data()!['ID'].toString();
+    print(temp);
+  });
+
+
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(

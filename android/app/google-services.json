@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "913461078382",
+    "firebase_url": "https://aceteam-18b6b-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "aceteam-18b6b",
+    "storage_bucket": "aceteam-18b6b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913461078382:android:d5e39fda12278b9411b97f",
+        "android_client_info": {
+          "package_name": "com.example.smart_home"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "913461078382-kpej3s2vbj0o396muq2ke7p3aotmk2i9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmKp18XLPbfJkIRf7Oy37a7uhvnE_yMok"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "913461078382-kpej3s2vbj0o396muq2ke7p3aotmk2i9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "913461078382-9tiu0ikgmm9eknd90mb78to2u2vrfc0p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

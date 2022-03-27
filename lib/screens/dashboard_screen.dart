@@ -8,56 +8,66 @@ class DashBoardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // return Scaffold(
-    //   appBar: SliverAppBar(),
-    //   floatingActionButton: FloatingActionButton(
-    //     onPressed: () {},
-    //     child: Icon(Icons.calendar_today),
-    //   ),
-    //   bottomNavigationBar: BottomNavBar(),
-    //   body: Container(
-    //     color: primary,
-    //     child: ListView(
-    //       children: [
-    //         SizedBox(
-    //           height: 100,
-    //         ),
-    //         Text(
-    //           'Temperature',
-    //           style: TextStyle(color: Colors.white, fontSize: 30),
-    //         ),
-    //         Container(
-    //           child: LineChartSample2(),
-    //           margin: EdgeInsets.symmetric(vertical: 30),
-    //         ),
-    //         Text(
-    //           'Light',
-    //           style: TextStyle(color: Colors.white, fontSize: 30),
-    //         ),
-    //         Container(
-    //           child: LineChartSample2(),
-    //           margin: EdgeInsets.symmetric(vertical: 30),
-    //         ),
-    //         Text(
-    //           'Humid',
-    //           style: TextStyle(color: Colors.white, fontSize: 30),
-    //         ),
-    //         LineChartSample2()
-    //       ],
-    //     ),
-    //   ),
-    // );
+
     return Scaffold(
+      backgroundColor: darkPrimary,
       extendBodyBehindAppBar: true,
-      backgroundColor: primary,
       bottomNavigationBar: BottomNavBar(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.calendar_today),
+      floatingActionButton: GestureDetector(
+        onTap: () {
+          showDatePicker(
+              builder: (context, child) {
+                return Theme(
+                  data: ThemeData.dark().copyWith(
+                    colorScheme: ColorScheme.dark(
+                      onSurface: Colors.white,
+                      primary: Colors.blue,
+                      onPrimary: Colors.white,
+                      surface: darkPrimary,
+                    ),
+                    dialogBackgroundColor: inActive,
+                  ),
+                  child: child!,
+                );
+              },
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime.now(),
+              lastDate: DateTime.now());
+        },
+        child: Container(
+          width: 75,
+          height: 75,
+          child: Center(
+            child: Icon(
+              Icons.calendar_today,
+              color: Colors.white,
+              size: 40,
+            ),
+          ),
+          decoration: BoxDecoration(
+            color: darkPrimary.withOpacity(0.5),
+            borderRadius: BorderRadius.circular(360),
+          ),
+        ),
       ),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                colors: [
+                  darkPrimary,
+                  darkPrimary.withOpacity(0.5),
+                  darkPrimary.withOpacity(0),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              )),
+            ),
+            title: Text('Dashboard'),
+            toolbarHeight: 100,
             floating: true,
             elevation: 0,
             backgroundColor: Colors.transparent,
@@ -66,7 +76,7 @@ class DashBoardScreen extends StatelessWidget {
             delegate: SliverChildBuilderDelegate((ctx, idx) {
               print(idx);
               return lst[idx];
-            }, childCount: 6),
+            }, childCount: lst.length),
           )
         ],
       ),
@@ -76,11 +86,25 @@ class DashBoardScreen extends StatelessWidget {
 
 var lst = [
   LineChartSample2(),
+  SizedBox(
+    height: 50,
+  ),
   LineChartSample2(),
+  SizedBox(
+    height: 50,
+  ),
   LineChartSample2(),
+  SizedBox(
+    height: 50,
+  ),
   LineChartSample2(),
+  SizedBox(
+    height: 50,
+  ),
   LineChartSample2(),
-  LineChartSample2(),
+  SizedBox(
+    height: 50,
+  ),
 ];
 // Dash pattern line chart example
 

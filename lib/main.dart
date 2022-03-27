@@ -18,18 +18,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-void main()async {
+void main() async {
+  print('testing');
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    print('\n\n\nSuccess\n\n\n');
+    var a = await FirebaseFirestore.instance
+        .collection('devices')
+        .doc('QfgPfit0CczPBxW8goul')
+        .get()
+        .then((value) {
+      print(value.data()!['ID'].toString());
+    });
+  } catch (e) {
+    print(e);
+  }
   // print("SJDAKHA");
   // Testing connection
-  FirebaseFirestore.instance.collection('devices').doc("QfgPfit0CczPBxW8goul").get()
-      .then((value) {
-    var temp = value.data()!['ID'].toString();
-    print(temp);
-  });
+  // FirebaseFirestore.instance
+  //     .collection('devices')
+  //     .doc("QfgPfit0CczPBxW8goul")
+  //     .get()
+  //     .then((value) {
+  //   var temp = value.data()!['ID'].toString();
+  //   print(temp);
+  // });
 
   runApp(MultiProvider(
     providers: [

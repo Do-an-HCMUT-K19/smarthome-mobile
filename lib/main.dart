@@ -31,8 +31,6 @@ void main()async {
     print(temp);
   });
 
-
-
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(

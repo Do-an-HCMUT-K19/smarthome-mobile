@@ -48,7 +48,7 @@ class ReturnMessage {
 
 class FirebaseUtils {
   // request: JSON(AccountName, Password)
-  signIn(request) async {
+  static signIn(request) async {
     if (request["AccountName"] == null) {
       return ReturnMessage(400, "Missing Account Name Value");
     } else if (request["Password"] == null) {
@@ -82,7 +82,7 @@ class FirebaseUtils {
   }
 
   // request: JSON(AccountName, Password, FirstName, LastName)
-  signUp(request) async {
+  static signUp(request) async {
     if (request["AccountName"] == null) {
       return ReturnMessage(400, "Missing Account Name Value");
     } else if (request["Password"] == null) {
@@ -112,7 +112,7 @@ class FirebaseUtils {
   }
 
   // request: JSON(AccountName)
-  getUserInform(request) async {
+  static getUserInform(request) async {
     if (request["AccountName"] == null) {
       return ReturnMessage(400, "Missing Account Name Value");
     }
@@ -136,7 +136,7 @@ class FirebaseUtils {
   }
 
   // request: JSON(AirHumidity, EnvTemperature, LandHumidity, AccountName)
-  addRealtimeDatabase(request) async {
+  static addRealtimeDatabase(request) async {
     var timestamp = Timestamp.now();
 
     if (request['AirHumidity'] == null) {
@@ -161,7 +161,7 @@ class FirebaseUtils {
   }
 
   // request: JSON(AccountName)
-  getLastestRealtimeDatabase(request) async {
+  static getLastestRealtimeDatabase(request) async {
     if (request["AccountName"] == null) {
       return ReturnMessage(400, "Missing Account Name Value");
     }
@@ -189,7 +189,7 @@ class FirebaseUtils {
   }
 
   // request: JSON(AccountName)
-  getAllSensors(request) async {
+  static getAllSensors(request) async {
     if (request["AccountName"] == null) {
       return ReturnMessage(400, "Missing Account Name Value");
     }
@@ -212,7 +212,7 @@ class FirebaseUtils {
 
   // request: JSON(AccountName, Area)
   // Area: ['living_room', 'bedroom', 'kitchen', 'garden', 'bathroom']
-  getAreaSensors(request) async {
+  static getAreaSensors(request) async {
     List<String> rooms = [
       'living_room',
       'bedroom',
@@ -247,7 +247,7 @@ class FirebaseUtils {
   }
 
   // request: JSON(AccountName)
-  getAllTimers(request) async {
+  static getAllTimers(request) async {
     if (request["AccountName"] == null) {
       return ReturnMessage(400, "Missing Account Name Value");
     }
@@ -276,7 +276,7 @@ class FirebaseUtils {
 
   // request: JSON(AccountName, Duration, Frequency, State, SensorId)
   // State: ['on', 'off']
-  setTimer(request) async {
+  static setTimer(request) async {
     List<String> states = ['on', 'off'];
 
     if (request["AccountName"] == null) {
@@ -317,7 +317,7 @@ class FirebaseUtils {
   }
 
   // request: JSON(ID)
-  deleteTimer(request) async {
+  static deleteTimer(request) async {
     if (request["ID"] == null) {
       return ReturnMessage(400, "Missing Timer ID Value");
     }
@@ -331,7 +331,7 @@ class FirebaseUtils {
   }
 
   // request: JSON(AccountName, SensorId)
-  turnOnSensor(request) async {
+  static turnOnSensor(request) async {
     if (request["AccountName"] == null) {
       return ReturnMessage(400, "Missing Account Name Value");
     } else if (request["SensorId"] == null) {
@@ -364,7 +364,7 @@ class FirebaseUtils {
   }
 
   // request: JSON(AccountName, SensorId)
-  turnOffSensor(request) async {
+  static turnOffSensor(request) async {
     if (request["AccountName"] == null) {
       return ReturnMessage(400, "Missing Account Name Value");
     } else if (request["SensorId"] == null) {

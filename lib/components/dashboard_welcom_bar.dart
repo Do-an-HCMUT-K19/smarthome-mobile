@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_home/constants/color.dart';
-import 'package:smart_home/screens/dashboard_screen.dart';
+import 'package:smart_home/screens/dashboard-screens/dashboard_screen.dart';
 import 'package:smart_home/smart_home_icon_icons.dart';
 import 'package:smart_home/states/main_bottom_bar.dart';
 import 'package:provider/provider.dart';

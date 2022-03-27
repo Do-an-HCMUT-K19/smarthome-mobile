@@ -74,7 +74,6 @@ class DashBoardScreen extends StatelessWidget {
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate((ctx, idx) {
-              print(idx);
               return lst[idx];
             }, childCount: lst.length),
           )
@@ -85,25 +84,62 @@ class DashBoardScreen extends StatelessWidget {
 }
 
 var lst = [
-  LineChartSample2(),
+  const Center(
+    child: Text(
+      'Temperature',
+      style: TextStyle(color: Colors.white, fontSize: 30),
+    ),
+  ),
   SizedBox(
-    height: 50,
+    height: 20,
   ),
   LineChartSample2(),
   SizedBox(
     height: 50,
   ),
-  LineChartSample2(),
+  Divider(
+    height: 5,
+    indent: 100,
+    endIndent: 100,
+    color: Colors.white.withOpacity(0.75),
+  ),
   SizedBox(
     height: 50,
+  ),
+  const Center(
+    child: Text(
+      'Light',
+      style: TextStyle(color: Colors.white, fontSize: 30),
+    ),
+  ),
+  SizedBox(
+    height: 20,
   ),
   LineChartSample2(),
   SizedBox(
     height: 50,
   ),
-  LineChartSample2(),
+  Divider(
+    height: 5,
+    indent: 100,
+    endIndent: 100,
+    color: Colors.white.withOpacity(0.75),
+  ),
   SizedBox(
     height: 50,
+  ),
+  const Center(
+    child: Text(
+      'Humidity',
+      style: TextStyle(color: Colors.white, fontSize: 30),
+    ),
+  ),
+  SizedBox(
+    height: 20,
+  ),
+  LineChartSample2(),
+  SizedBox(
+    height: 100,
   ),
 ];
 // Dash pattern line chart example

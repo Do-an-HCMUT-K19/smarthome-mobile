@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_home/components/bottom_bar.dart';
-import 'package:smart_home/screens/bathroom_screen.dart';
-import 'package:smart_home/screens/bedroom_screen.dart';
-import 'package:smart_home/screens/garden_screen.dart';
-import 'package:smart_home/screens/kitchen_screen.dart';
-import 'package:smart_home/screens/livingroom_screen.dart';
+import 'package:smart_home/screens/dashboard-screens/dashboard_screen.dart';
+import 'package:smart_home/screens/main-screens/bathroom_screen.dart';
+import 'package:smart_home/screens/main-screens/bedroom_screen.dart';
+import 'package:smart_home/screens/main-screens/garden_screen.dart';
+import 'package:smart_home/screens/main-screens/kitchen_screen.dart';
+import 'package:smart_home/screens/main-screens/livingroom_screen.dart';
 import 'package:smart_home/states/bathroom.dart';
 import 'package:smart_home/states/bedroom.dart';
 import 'package:smart_home/states/garden.dart';
@@ -19,23 +20,23 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  print('testing');
-  WidgetsFlutterBinding.ensureInitialized();
-  try {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    print('\n\n\nSuccess\n\n\n');
-    var a = await FirebaseFirestore.instance
-        .collection('devices')
-        .doc('QfgPfit0CczPBxW8goul')
-        .get()
-        .then((value) {
-      print(value.data()!['ID'].toString());
-    });
-  } catch (e) {
-    print(e);
-  }
+  // print('testing');
+  // WidgetsFlutterBinding.ensureInitialized();
+  // try {
+  //   await Firebase.initializeApp(
+  //     options: DefaultFirebaseOptions.currentPlatform,
+  //   );
+  //   print('\n\n\nSuccess\n\n\n');
+  //   var a = await FirebaseFirestore.instance
+  //       .collection('devices')
+  //       .doc('QfgPfit0CczPBxW8goul')
+  //       .get()
+  //       .then((value) {
+  //     print(value.data()!['ID'].toString());
+  //   });
+  // } catch (e) {
+  //   print(e);
+  // }
   // print("SJDAKHA");
   // Testing connection
   // FirebaseFirestore.instance
@@ -103,8 +104,9 @@ class _MainAppState extends State<MainApp> {
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
-          body: pages[context.watch<BottomBarState>().chosenPage],
-          bottomNavigationBar: BottomNavBar(),
+          // body: pages[context.watch<BottomBarState>().chosenPage],
+          body: DashBoardScreen(),
+          // bottomNavigationBar: BottomNavBar(),
         ),
       ),
     );

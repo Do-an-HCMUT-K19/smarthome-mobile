@@ -103,11 +103,11 @@ class _LivingRoomControlState extends State<LivingRoomControl> {
           if (chosing == 0)
             // light controller
             Container(
-              height: 270,
+              height: 250,
               width: 250,
               child: GridView.count(
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 20,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 5,
                 crossAxisCount: 2,
                 children: [
                   LightControl(

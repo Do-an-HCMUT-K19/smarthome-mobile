@@ -32,14 +32,15 @@ class _LightControlState extends State<LightControl> {
             height: 10,
           ),
           FlutterSwitch(
-              value: widget.isActive,
-              activeColor: Colors.white70,
-              inactiveColor: inActive,
-              width: 55,
-              height: 30,
-              onToggle: (val) {
-                widget.callBack(widget.order, val);
-              })
+            value: widget.isActive,
+            activeColor: Colors.white70,
+            inactiveColor: inActive,
+            width: 55,
+            height: 30,
+            onToggle: (val) {
+              widget.callBack(widget.order, val);
+            },
+          )
         ],
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:smart_home/constants/menu_options.dart';
-import 'package:smart_home/screens/dashboard_screen.dart';
+import 'package:smart_home/screens/dashboard-screens/dashboard_screen.dart';
 import 'package:smart_home/smart_home_icon_icons.dart';
 import 'package:smart_home/states/main_bottom_bar.dart';
 
@@ -13,12 +13,22 @@ class PopUpOptionMenu extends StatelessWidget {
     return PopupMenuButton(
       itemBuilder: (_) {
         return <PopupMenuEntry<MenuOptions>>[
-          const PopupMenuItem(
-            child: Text('Dashboard'),
+          PopupMenuItem(
+            child: Row(
+              children: const [
+                Icon(Icons.add_chart_sharp),
+                Text('Dashboard'),
+              ],
+            ),
             value: MenuOptions.dashboard,
           ),
-          const PopupMenuItem(
-            child: Text('Statistic'),
+          PopupMenuItem(
+            child: Row(
+              children: const [
+                Icon(Icons.alarm),
+                Text('Timer'),
+              ],
+            ),
             value: MenuOptions.statistic,
           ),
         ];

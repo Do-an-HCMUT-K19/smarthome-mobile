@@ -1,0 +1,4 @@
+enum MenuOptions {
+  dashboard,
+  statistic,
+}

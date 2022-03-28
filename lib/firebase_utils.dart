@@ -8,6 +8,12 @@ class UserInform {
   UserInform(this.account_name, this.first_name, this.last_name);
 }
 
+class RealtimeDatabase {
+  var living_room, bathroom, kitchen, bedroom, garden;
+  RealtimeDatabase(
+      this.living_room, this.bathroom, this.kitchen, this.bedroom, this.garden);
+}
+
 class Sensors {
   List<SensorInform> sensors;
   Sensors(this.sensors);
@@ -166,16 +172,45 @@ class FirebaseUtils {
       return ReturnMessage(400, "Missing Account Name Value");
     }
 
-    Stream<QuerySnapshot> realtimeChanges = await FirebaseFirestore.instance
+    Stream<QuerySnapshot> living_room = await FirebaseFirestore.instance
         .collection('realtime_db')
         .where('account_name', isEqualTo: request['AccountName'])
+        .where('area', isEqualTo: 'living_room')
         .orderBy('timestamp', descending: true)
         .limit(1)
         .snapshots(includeMetadataChanges: true);
 
-    // realtimeChanges.listen((event) {
-    //   print(event.docs[0]["timestamp"].toDate());
-    // });
+    Stream<QuerySnapshot> bedroom = await FirebaseFirestore.instance
+        .collection('realtime_db')
+        .where('account_name', isEqualTo: request['AccountName'])
+        .where('area', isEqualTo: 'bedroom')
+        .orderBy('timestamp', descending: true)
+        .limit(1)
+        .snapshots(includeMetadataChanges: true);
+
+    Stream<QuerySnapshot> bathroom = await FirebaseFirestore.instance
+        .collection('realtime_db')
+        .where('account_name', isEqualTo: request['AccountName'])
+        .where('area', isEqualTo: 'bathroom')
+        .orderBy('timestamp', descending: true)
+        .limit(1)
+        .snapshots(includeMetadataChanges: true);
+
+    Stream<QuerySnapshot> garden = await FirebaseFirestore.instance
+        .collection('realtime_db')
+        .where('account_name', isEqualTo: request['AccountName'])
+        .where('area', isEqualTo: 'garden')
+        .orderBy('timestamp', descending: true)
+        .limit(1)
+        .snapshots(includeMetadataChanges: true);
+
+    Stream<QuerySnapshot> kitchen = await FirebaseFirestore.instance
+        .collection('realtime_db')
+        .where('account_name', isEqualTo: request['AccountName'])
+        .where('area', isEqualTo: 'kitchen')
+        .orderBy('timestamp', descending: true)
+        .limit(1)
+        .snapshots(includeMetadataChanges: true);
 
     // var querySnapshot = await FirebaseFirestore.instance
     //     .collection('realtime_db')
@@ -185,7 +220,8 @@ class FirebaseUtils {
     //     .get()
     //     .catchError((error) => print("Failed to add user: $error"));
 
-    return ReturnMessage.data(200, "Get Data Successfully", realtimeChanges);
+    return ReturnMessage.data(200, "Get Data Successfully",
+        RealtimeDatabase(living_room, bathroom, kitchen, bedroom, garden));
   }
 
   // request: JSON(AccountName)

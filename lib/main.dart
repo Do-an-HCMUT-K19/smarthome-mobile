@@ -20,33 +20,33 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  // print('testing');
-  // WidgetsFlutterBinding.ensureInitialized();
-  // try {
-  //   await Firebase.initializeApp(
-  //     options: DefaultFirebaseOptions.currentPlatform,
-  //   );
-  //   print('\n\n\nSuccess\n\n\n');
-  //   var a = await FirebaseFirestore.instance
-  //       .collection('devices')
-  //       .doc('QfgPfit0CczPBxW8goul')
-  //       .get()
-  //       .then((value) {
-  //     print(value.data()!['ID'].toString());
-  //   });
-  // } catch (e) {
-  //   print(e);
-  // }
-  // print("SJDAKHA");
+  print('testing');
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    if (Firebase.apps.length == 0) {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    } else {
+      await Firebase.app();
+    }
+
+    print('\n\n\nSuccess\n\n\n');
+    // var a = await FirebaseFirestore.instance
+    //     .collection('user')
+    //     .doc('0txX0IXy9jrjisHbyWjZ')
+    //     .get()
+    //     .then((value) {
+    //   print('testing value');
+    //   print(value.data()!['account_name'].toString());
+    //   print('testing value');
+    // });
+  } catch (e) {
+    print(e);
+  }
+  print("SJDAKHA");
   // Testing connection
-  // FirebaseFirestore.instance
-  //     .collection('devices')
-  //     .doc("QfgPfit0CczPBxW8goul")
-  //     .get()
-  //     .then((value) {
-  //   var temp = value.data()!['ID'].toString();
-  //   print(temp);
-  // });
+  print(FirebaseFirestore.instance != null);
 
   runApp(MultiProvider(
     providers: [
@@ -104,9 +104,8 @@ class _MainAppState extends State<MainApp> {
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
-          // body: pages[context.watch<BottomBarState>().chosenPage],
-          body: DashBoardScreen(),
-          // bottomNavigationBar: BottomNavBar(),
+          body: pages[context.watch<BottomBarState>().chosenPage],
+          bottomNavigationBar: BottomNavBar(),
         ),
       ),
     );

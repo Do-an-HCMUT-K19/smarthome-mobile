@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 
@@ -136,7 +135,7 @@ class FirebaseUtils {
   }
 
   // request: JSON(AirHumidity, EnvTemperature, LandHumidity, AccountName)
-  addRealtimeDatabase(request) async {
+  static addRealtimeDatabase(request) async {
     var timestamp = Timestamp.now();
 
     if (request['AirHumidity'] == null) {
@@ -161,29 +160,17 @@ class FirebaseUtils {
   }
 
   // request: JSON(AccountName)
-  getLastestRealtimeDatabase(request) async {
+  static getLastestRealtimeDatabase(request) async {
     if (request["AccountName"] == null) {
       return ReturnMessage(400, "Missing Account Name Value");
     }
 
-    Stream<QuerySnapshot> realtimeChanges = await FirebaseFirestore.instance
+    Stream<QuerySnapshot> realtimeChanges = FirebaseFirestore.instance
         .collection('realtime_db')
         .where('account_name', isEqualTo: request['AccountName'])
         .orderBy('timestamp', descending: true)
         .limit(1)
         .snapshots(includeMetadataChanges: true);
-
-    // realtimeChanges.listen((event) {
-    //   print(event.docs[0]["timestamp"].toDate());
-    // });
-
-    // var querySnapshot = await FirebaseFirestore.instance
-    //     .collection('realtime_db')
-    //     .where('account_name', isEqualTo: request['AccountName'])
-    //     .orderBy('timestamp', descending: true)
-    //     .limit(1)
-    //     .get()
-    //     .catchError((error) => print("Failed to add user: $error"));
 
     return ReturnMessage.data(200, "Get Data Successfully", realtimeChanges);
   }

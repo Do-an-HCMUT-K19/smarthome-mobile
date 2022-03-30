@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, TargetPlatform;
+
 // kIsWeb,
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -49,7 +50,8 @@ class DefaultFirebaseOptions {
     appId: '1:913461078382:android:d5e39fda12278b9411b97f',
     messagingSenderId: '913461078382',
     projectId: 'aceteam-18b6b',
-    databaseURL: 'https://aceteam-18b6b-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://aceteam-18b6b-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'aceteam-18b6b.appspot.com',
   );
 }

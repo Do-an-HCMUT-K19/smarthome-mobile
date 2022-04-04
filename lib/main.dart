@@ -8,6 +8,7 @@ import 'package:smart_home/screens/main-screens/bedroom_screen.dart';
 import 'package:smart_home/screens/main-screens/garden_screen.dart';
 import 'package:smart_home/screens/main-screens/kitchen_screen.dart';
 import 'package:smart_home/screens/main-screens/livingroom_screen.dart';
+import 'package:smart_home/screens/timer-screens/living_room_timer.dart';
 import 'package:smart_home/states/bathroom.dart';
 import 'package:smart_home/states/bedroom.dart';
 import 'package:smart_home/states/garden.dart';
@@ -17,6 +18,7 @@ import 'package:smart_home/states/main_bottom_bar.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:smart_home/states/timer.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -67,6 +69,9 @@ void main() async {
       ),
       ChangeNotifierProvider(
         create: (_) => BottomBarState(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => TimerState(),
       )
     ],
     child: MainApp(),
@@ -104,9 +109,14 @@ class _MainAppState extends State<MainApp> {
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
-          body: pages[context.watch<BottomBarState>().chosenPage],
+          body: LivingRoomTimer(),
           bottomNavigationBar: BottomNavBar(),
         ),
+
+        // child: Scaffold(
+        //   body: pages[context.watch<BottomBarState>().chosenPage],
+        //   bottomNavigationBar: BottomNavBar(),
+        // ),
       ),
     );
   }

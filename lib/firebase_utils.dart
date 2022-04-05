@@ -159,7 +159,8 @@ class FirebaseUtils {
       'air_humidity': request['AirHumidity'],
       'env_temperature': request['EnvTemperature'],
       'land_humidity': request['LandHumidity'],
-      'account_name': request['AccountName']
+      'account_name': request['AccountName'],
+      'area': request['Area'],
     });
 
     return ReturnMessage(200, 'Add Data Successfully');
@@ -174,7 +175,7 @@ class FirebaseUtils {
     Stream<QuerySnapshot> realtimeChanges = FirebaseFirestore.instance
         .collection('realtime_db')
         .where('account_name', isEqualTo: request['AccountName'])
-        .where('area', isEqualTo: 'living_room')
+        .where('area', isEqualTo: request['Area'])
         .orderBy('timestamp', descending: true)
         .limit(1)
         .snapshots(includeMetadataChanges: true);
@@ -209,10 +210,10 @@ class FirebaseUtils {
   static getAreaSensors(request) async {
     List<String> rooms = [
       'living_room',
-      'bedroom',
+      'bed_room',
       'kitchen',
       'garden',
-      'bathroom'
+      'bath_room'
     ];
 
     if (request["AccountName"] == null) {

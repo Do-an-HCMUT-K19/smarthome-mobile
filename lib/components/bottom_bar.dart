@@ -23,6 +23,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
+    final scrollController = ScrollController();
     Size size = MediaQuery.of(context).size;
     return Container(
       width: size.width,
@@ -30,14 +31,17 @@ class _BottomNavBarState extends State<BottomNavBar> {
       height: size.width * 0.2,
       child: Center(
         child: ListView(
-          physics: BouncingScrollPhysics(),
+          controller: scrollController,
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
           children: [
             const SizedBox(width: 110),
             Center(
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
+                  await scrollController.animateTo(0,
+                      duration: Duration(milliseconds: 250),
+                      curve: Curves.easeIn);
                   context.read<BottomBarState>().changePage(0);
                 },
                 child: Container(
@@ -48,7 +52,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ),
             Center(
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
+                  await scrollController.animateTo(0.425 * size.width,
+                      duration: Duration(milliseconds: 250),
+                      curve: Curves.easeIn);
                   context.read<BottomBarState>().changePage(1);
                 },
                 child: Container(
@@ -59,7 +66,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ),
             Center(
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
+                  await scrollController.animateTo(0.825 * size.width,
+                      duration: Duration(milliseconds: 250),
+                      curve: Curves.easeIn);
                   context.read<BottomBarState>().changePage(2);
                 },
                 child: Container(
@@ -70,7 +80,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ),
             Center(
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
+                  await scrollController.animateTo(1.2 * size.width,
+                      duration: Duration(milliseconds: 250),
+                      curve: Curves.easeIn);
                   context.read<BottomBarState>().changePage(3);
                 },
                 child: Container(
@@ -81,7 +94,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ),
             Center(
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
+                  await scrollController.animateTo(1.6 * size.width,
+                      duration: Duration(milliseconds: 250),
+                      curve: Curves.easeIn);
                   context.read<BottomBarState>().changePage(4);
                 },
                 child: Container(
@@ -90,7 +106,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 ),
               ),
             ),
-            const SizedBox(width: 110),
+            const SizedBox(width: 120),
           ],
         ),
       ),

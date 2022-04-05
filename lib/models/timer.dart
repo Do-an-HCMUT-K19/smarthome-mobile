@@ -1,11 +1,14 @@
+import 'package:uuid/uuid.dart';
+
 class Timer {
-  int idx;
+  final String id = Uuid().v1();
+  String name;
   DateTime dateTime;
   Duration duration;
   bool isAutoOff = true;
 
   Timer({
-    required this.idx,
+    required this.name,
     required this.dateTime,
     required this.duration,
     required this.isAutoOff,

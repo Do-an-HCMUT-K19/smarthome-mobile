@@ -12,7 +12,7 @@ class TimerTile extends StatelessWidget {
     var dateTimeString = DateFormat.MEd().add_jms().format(timer.dateTime);
     Size size = MediaQuery.of(context).size;
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 20),
       height: size.height * 0.15,
       width: size.width * 0.9,
       child: Column(
@@ -23,7 +23,7 @@ class TimerTile extends StatelessWidget {
             children: [
               Container(
                 child: Text(
-                  'Bulb timer no.${timer.idx + 1}',
+                  '${timer.name}',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 25,
@@ -33,7 +33,7 @@ class TimerTile extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  context.read<TimerState>().removeTimer(timer.idx);
+                  context.read<TimerState>().removeTimer(timer.id);
                 },
                 icon: Icon(
                   Icons.delete,
@@ -78,10 +78,10 @@ class TimerTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.25),
-              spreadRadius: 5,
-              blurRadius: 10,
-              offset: Offset(0, 3), // changes position of shadow
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(0, 0), // changes position of shadow
             ),
           ]),
     );

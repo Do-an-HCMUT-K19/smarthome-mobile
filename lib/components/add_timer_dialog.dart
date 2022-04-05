@@ -17,6 +17,7 @@ class _NewAlarmDialogState extends State<NewAlarmDialog> {
   TimeOfDay chosenTime = TimeOfDay.now();
   int durations = 0;
   bool isTurnOff = true;
+  String chosenName = 'Bulb no.1';
 
   void pickDateAndTime() {
     Future<DateTime?> chosen = showDatePicker(
@@ -45,6 +46,7 @@ class _NewAlarmDialogState extends State<NewAlarmDialog> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     String dateString = DateFormat.MEd().format(chosenDate);
     String timeString = chosenTime.format(context);
     return AlertDialog(
@@ -62,6 +64,7 @@ class _NewAlarmDialogState extends State<NewAlarmDialog> {
                   ),
                   duration: durations,
                   isAutoOff: isTurnOff,
+                  name: chosenName,
                 );
             Navigator.of(context).pop();
           },
@@ -86,6 +89,45 @@ class _NewAlarmDialogState extends State<NewAlarmDialog> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              Row(
+                children: [
+                  Text('Bulb'),
+                  SizedBox(
+                    width: 50,
+                  ),
+                  Container(
+                    width: size.width * 0.4,
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      value: chosenName,
+                      icon: const Icon(Icons.arrow_drop_down),
+                      elevation: 16,
+                      style: const TextStyle(
+                        color: Colors.deepPurple,
+                        fontSize: 16,
+                      ),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.deepPurpleAccent,
+                      ),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          chosenName = newValue!;
+                        });
+                      },
+                      items: context
+                          .read<TimerState>()
+                          .bulbList
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
+              ),
               Row(
                 children: [
                   Text(dateString),

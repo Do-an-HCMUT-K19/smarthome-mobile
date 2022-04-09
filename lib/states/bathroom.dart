@@ -67,11 +67,15 @@ class BathRoomState with ChangeNotifier {
   void changeLightState(int idx, bool value) {
     _lightList[idx].state = value ? 'on' : 'off';
     if (value) {
-      FirebaseUtils.turnOnSensor(
-          {'AccountName': 'giacat', 'SensorId': _lightList[idx].sensor_id});
+      FirebaseUtils.turnOnSensor({
+        'AccountName': 'giacat',
+        'SensorId': _lightList[idx].sensor_id,
+      });
     } else {
-      FirebaseUtils.turnOffSensor(
-          {'AccountName': 'giacat', 'SensorId': _lightList[idx].sensor_id});
+      FirebaseUtils.turnOffSensor({
+        'AccountName': 'giacat',
+        'SensorId': _lightList[idx].sensor_id,
+      });
     }
     notifyListeners();
   }

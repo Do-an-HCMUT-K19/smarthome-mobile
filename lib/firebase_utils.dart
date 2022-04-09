@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
+import 'package:smart_home/models/statistic_data.dart';
 
 class UserInform {
   var account_name, first_name, last_name;
@@ -181,6 +182,67 @@ class FirebaseUtils {
         .snapshots(includeMetadataChanges: true);
 
     return ReturnMessage.data(200, "Get Data Successfully", realtimeChanges);
+  }
+
+  static getStatisticData(request) async {
+    if (request["AccountName"] == null) {
+      return ReturnMessage(400, "Missing Account Name Value");
+    } else if (request['Timestamp'] == null) {
+      return ReturnMessage(400, 'Missing timestamp');
+    } else if (request['Area'] == null) {
+      return ReturnMessage(400, 'Missing area');
+    }
+
+    // double a = 5.toDouble()
+
+    var querySnapshot = await FirebaseFirestore.instance
+        .collection('realtime_db')
+        .where('account_name', isEqualTo: request['AccountName'])
+        .where('area', isEqualTo: request['Area'])
+        // .where('timestamp', isLessThan: request['Timestamp'])
+        .get();
+
+    List<EnvData> rsTmp = [];
+    querySnapshot.docs.forEach(
+      (element) {
+        if (element['timestamp'].compareTo(request['Timestamp']) < 0) {
+          rsTmp.add(EnvData(
+              hour: element['timestamp'].toDate().hour,
+              humid: element['air_humidity'].toDouble(),
+              temp: element['env_temperature'].toDouble()));
+        }
+      },
+    );
+
+    if (rsTmp.isEmpty) return ReturnMessage(200, []);
+    List<EnvData> rs = [];
+    int curHour = rsTmp[0].hour;
+    double sumHumid = 0;
+    double sumTemp = 0;
+    int count = 0;
+    for (var i in rsTmp) {
+      if (curHour == i.hour) {
+        count++;
+        sumHumid += i.humid;
+        sumTemp += i.temp;
+      } else {
+        rs.add(EnvData(
+          hour: curHour,
+          temp: sumTemp / count,
+          humid: sumHumid / count,
+        ));
+        count = 1;
+        curHour = i.hour;
+        sumHumid = i.humid;
+        sumTemp = i.temp;
+      }
+    }
+    rs.add(EnvData(
+      hour: curHour,
+      temp: sumTemp / count,
+      humid: sumHumid / count,
+    ));
+    return ReturnMessage(200, rs);
   }
 
   // request: JSON(AccountName)

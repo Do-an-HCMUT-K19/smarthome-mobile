@@ -6,9 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:smart_home/states/kitchen.dart';
 
 class KitchenScreen extends StatelessWidget {
-  const KitchenScreen({
-    Key? key,
-  }) : super(key: key);
+  const KitchenScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

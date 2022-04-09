@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_home/components/bottom_bar.dart';
-import 'package:smart_home/screens/dashboard-screens/dashboard_screen.dart';
+import 'package:smart_home/firebase_utils.dart';
+import 'package:smart_home/screens/dashboard-screens/livingroom_dashboard.dart';
 import 'package:smart_home/screens/main-screens/bathroom_screen.dart';
 import 'package:smart_home/screens/main-screens/bedroom_screen.dart';
 import 'package:smart_home/screens/main-screens/garden_screen.dart';
 import 'package:smart_home/screens/main-screens/kitchen_screen.dart';
 import 'package:smart_home/screens/main-screens/livingroom_screen.dart';
+import 'package:smart_home/screens/main_holder.dart';
 import 'package:smart_home/states/bathroom.dart';
 import 'package:smart_home/states/bedroom.dart';
 import 'package:smart_home/states/garden.dart';
@@ -17,14 +19,14 @@ import 'package:smart_home/states/main_bottom_bar.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:smart_home/states/statistic_state.dart';
 import 'package:smart_home/states/timer.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  print('testing');
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    if (Firebase.apps.length == 0) {
+    if (Firebase.apps.isEmpty) {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
@@ -35,10 +37,6 @@ void main() async {
   } catch (e) {
     print(e);
   }
-  print("SJDAKHA");
-  // Testing connection
-  print(FirebaseFirestore.instance != null);
-
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -61,47 +59,24 @@ void main() async {
       ),
       ChangeNotifierProvider(
         create: (_) => TimerState(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => StatisticState(),
       )
     ],
-    child: MainApp(),
+    child: const SmartHome(),
   ));
 }
 
-class MainApp extends StatefulWidget {
-  MainApp({Key? key}) : super(key: key);
+class SmartHome extends StatelessWidget {
+  const SmartHome({Key? key}) : super(key: key);
 
-  @override
-  State<MainApp> createState() => _MainAppState();
-}
-
-class _MainAppState extends State<MainApp> {
-  var _selectedPage = 0;
-
-  void changePage(int page) {
-    setState(() {
-      _selectedPage = page;
-      print(page);
-    });
-  }
-
-  final pages = [
-    LivingroomScreen(),
-    BedroomScreen(),
-    BathroomScreen(),
-    KitchenScreen(),
-    GardenScreen(),
-  ];
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SafeArea(
-        child: Scaffold(
-          body: pages[context.watch<BottomBarState>().chosenPage],
-          bottomNavigationBar: BottomNavBar(),
-        ),
-      ),
+      home: SafeArea(child: MainHolder()),
     );
   }
 }

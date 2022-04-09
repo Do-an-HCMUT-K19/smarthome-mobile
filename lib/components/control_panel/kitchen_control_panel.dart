@@ -60,7 +60,6 @@ class _KitchenControlState extends State<KitchenControl> {
               InfoDisplay(
                   type: Info.temperature,
                   data: context.watch<KitchenState>().temp.toInt()),
-              InfoDisplay(type: Info.light, data: 31),
               InfoDisplay(
                   type: Info.humidity,
                   data: context.watch<KitchenState>().humid.toInt())

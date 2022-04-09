@@ -44,6 +44,8 @@ class KitchenState with ChangeNotifier {
     for (var element in msg.data.sensors) {
       _lightList.add(element);
     }
+
+    _lightList.sort((a, b) => a.sensor_id >= b.sensor_id ? 1 : 0);
   }
 
   double get temp => _temp;

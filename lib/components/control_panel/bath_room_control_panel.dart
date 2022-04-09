@@ -59,7 +59,6 @@ class _BathRoomControlState extends State<BathRoomControl> {
               InfoDisplay(
                   type: Info.temperature,
                   data: context.watch<BathRoomState>().temp.toInt()),
-              InfoDisplay(type: Info.light, data: 31),
               InfoDisplay(
                   type: Info.humidity,
                   data: context.watch<BathRoomState>().humid.toInt())

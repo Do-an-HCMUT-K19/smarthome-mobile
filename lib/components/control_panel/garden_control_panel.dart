@@ -60,7 +60,6 @@ class _GardenControlState extends State<GardenControl> {
               InfoDisplay(
                   type: Info.temperature,
                   data: context.watch<GardenState>().temp.toInt().toInt()),
-              InfoDisplay(type: Info.light, data: 31),
               InfoDisplay(
                   type: Info.humidity,
                   data: context.watch<GardenState>().humid.toInt())

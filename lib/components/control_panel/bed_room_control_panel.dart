@@ -6,7 +6,7 @@ import 'package:smart_home/constants/color.dart';
 import 'package:smart_home/constants/info_type.dart';
 import 'package:smart_home/states/bedroom.dart';
 
-import '../../smart_home_icon_icons.dart';
+import '../../constants/smart_home_icon_icons.dart';
 import '../func_button.dart';
 import '../info_display.dart';
 

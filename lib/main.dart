@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_home/components/bottom_bar.dart';
-import 'package:smart_home/firebase_utils.dart';
+import 'package:smart_home/utils/firebase_utils.dart';
 import 'package:smart_home/screens/dashboard-screens/livingroom_dashboard.dart';
 import 'package:smart_home/screens/main-screens/bathroom_screen.dart';
 import 'package:smart_home/screens/main-screens/bedroom_screen.dart';
@@ -21,7 +21,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:smart_home/states/statistic_state.dart';
 import 'package:smart_home/states/timer.dart';
-import 'firebase_options.dart';
+import 'conf/firebase_conf.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

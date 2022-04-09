@@ -4,7 +4,7 @@ import 'package:smart_home/components/popup_menu.dart';
 import 'package:smart_home/constants/color.dart';
 import 'package:smart_home/constants/menu_options.dart';
 import 'package:smart_home/screens/dashboard-screens/livingroom_dashboard.dart';
-import 'package:smart_home/smart_home_icon_icons.dart';
+import 'package:smart_home/constants/smart_home_icon_icons.dart';
 import 'package:smart_home/states/main_bottom_bar.dart';
 
 class WelcomBar extends StatelessWidget {

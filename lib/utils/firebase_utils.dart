@@ -1,56 +1,13 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
+import 'package:smart_home/models/return_msg.dart';
+import 'package:smart_home/models/sensor_info.dart';
+import 'package:smart_home/models/sensor_list.dart';
 import 'package:smart_home/models/statistic_data.dart';
-
-class UserInform {
-  var account_name, first_name, last_name;
-  UserInform(this.account_name, this.first_name, this.last_name);
-}
-
-class RealtimeDatabase {
-  var living_room, bathroom, kitchen, bedroom, garden;
-  RealtimeDatabase(
-      this.living_room, this.bathroom, this.kitchen, this.bedroom, this.garden);
-}
-
-class Sensors {
-  List<SensorInform> sensors;
-  Sensors(this.sensors);
-}
-
-class SensorInform {
-  var area, name, sensor_id, account_name, state;
-  SensorInform(
-      this.area, this.name, this.sensor_id, this.account_name, this.state);
-}
-
-class Timers {
-  List<TimerInform> timers;
-  Timers(this.timers);
-}
-
-class TimerInform {
-  var account_name,
-      duration,
-      frequency,
-      last_record,
-      sensor_id,
-      state,
-      timestamp,
-      id;
-  TimerInform(this.account_name, this.duration, this.frequency,
-      this.last_record, this.sensor_id, this.state, this.timestamp, this.id);
-}
-
-class ReturnMessage {
-  var code, message, data;
-  ReturnMessage(this.code, this.message);
-  ReturnMessage.data(this.code, this.message, this.data);
-}
-// Return Message
-// code 200, request ok
-// code 400, missing value
+import 'package:smart_home/models/timer_info.dart';
+import 'package:smart_home/models/timer_list.dart';
+import 'package:smart_home/models/user_info.dart';
 
 class FirebaseUtils {
   // request: JSON(AccountName, Password)

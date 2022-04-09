@@ -5,7 +5,7 @@ import 'package:smart_home/constants/room_type.dart';
 import 'package:smart_home/models/timer.dart';
 import 'package:smart_home/screens/timer-screens/timer_screen.dart';
 import 'package:smart_home/states/main_bottom_bar.dart';
-import 'package:smart_home/states/timer.dart';
+import 'package:smart_home/states/timer_state.dart';
 
 class TimerHolder extends StatelessWidget {
   const TimerHolder({Key? key}) : super(key: key);

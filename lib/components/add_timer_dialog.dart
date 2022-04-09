@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/src/provider.dart';
 import 'package:smart_home/constants/color.dart';
 import 'package:smart_home/constants/room_type.dart';
-import 'package:smart_home/states/timer.dart';
+import 'package:smart_home/states/timer_state.dart';
 
 class NewAlarmDialog extends StatefulWidget {
   final RoomType roomType;

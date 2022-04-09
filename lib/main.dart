@@ -20,7 +20,7 @@ import 'package:smart_home/states/main_bottom_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:smart_home/states/statistic_state.dart';
-import 'package:smart_home/states/timer.dart';
+import 'package:smart_home/states/timer_state.dart';
 import 'conf/firebase_conf.dart';
 
 void main() async {

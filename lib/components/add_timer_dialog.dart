@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/src/provider.dart';
+import 'package:smart_home/constants/color.dart';
+import 'package:smart_home/constants/room_type.dart';
 import 'package:smart_home/states/timer.dart';
 
 class NewAlarmDialog extends StatefulWidget {
+  final RoomType roomType;
   const NewAlarmDialog({
     Key? key,
+    required this.roomType,
   }) : super(key: key);
 
   @override
@@ -13,41 +17,30 @@ class NewAlarmDialog extends StatefulWidget {
 }
 
 class _NewAlarmDialogState extends State<NewAlarmDialog> {
-  DateTime chosenDate = DateTime.now();
+  String chosenDate = '';
   TimeOfDay chosenTime = TimeOfDay.now();
   int durations = 0;
   bool isTurnOff = true;
-  String chosenName = 'Bulb no.1';
+  String chosenName = 'Bulb #1';
+  List<String> dateOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-  void pickDateAndTime() {
-    Future<DateTime?> chosen = showDatePicker(
-        context: context,
-        initialDate: chosenDate,
-        firstDate: DateTime.now(),
-        lastDate: DateTime(DateTime.now().year + 3));
-    chosen.then(
-      (value) {
-        if (value != null) {
-          Future<TimeOfDay?> chosenTime_ =
-              showTimePicker(context: context, initialTime: chosenTime);
-          chosenTime_.then(
-            (valueTime) {
-              if (valueTime != null) {
-                chosenDate = value;
-                chosenTime = valueTime;
-              }
-              setState(() {});
-            },
-          );
-        }
-      },
-    );
+  void _showTimePicker() {
+    showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      if (value != null) {
+        chosenTime = value;
+        setState(() {});
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    String dateString = DateFormat.MEd().format(chosenDate);
+    chosenDate =
+        chosenDate == '' ? dateOfWeek[DateTime.now().weekday - 1] : chosenDate;
     String timeString = chosenTime.format(context);
     return AlertDialog(
       actionsAlignment: MainAxisAlignment.spaceEvenly,
@@ -55,16 +48,11 @@ class _NewAlarmDialogState extends State<NewAlarmDialog> {
         TextButton(
           onPressed: () {
             context.read<TimerState>().addTimer(
-                  dateTime: DateTime(
-                    chosenDate.year,
-                    chosenDate.month,
-                    chosenDate.day,
-                    chosenTime.hour,
-                    chosenTime.minute,
-                  ),
+                  dayOfWeek: chosenDate,
                   duration: durations,
                   isAutoOff: isTurnOff,
                   name: chosenName,
+                  roomType: widget.roomType,
                 );
             Navigator.of(context).pop();
           },
@@ -84,7 +72,7 @@ class _NewAlarmDialogState extends State<NewAlarmDialog> {
         ),
       ],
       content: SizedBox(
-          height: 200,
+          height: 300,
           width: 300,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -117,7 +105,7 @@ class _NewAlarmDialogState extends State<NewAlarmDialog> {
                       },
                       items: context
                           .read<TimerState>()
-                          .bulbList
+                          .getBulbList(widget.roomType)
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -128,29 +116,48 @@ class _NewAlarmDialogState extends State<NewAlarmDialog> {
                   ),
                 ],
               ),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 15),
+                width: size.width * 0.8,
+                child: SingleChildScrollView(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: dateOfWeek
+                        .map((e) => GestureDetector(
+                              onTap: () {
+                                chosenDate = e;
+                                print(e);
+                                setState(() {});
+                              },
+                              child: Container(
+                                child: Text(e),
+                                decoration: chosenDate == e
+                                    ? BoxDecoration(
+                                        color: Colors.blue.withOpacity(0.5))
+                                    : null,
+                              ),
+                            ))
+                        .toList(),
+                  ),
+                ),
+              ),
               Row(
                 children: [
-                  Text(dateString),
+                  Text('Time'),
                   const SizedBox(
-                    width: 30,
+                    width: 70,
                   ),
-                  Text(timeString),
-                  Expanded(
-                    child: IconButton(
-                      splashRadius: 30,
-                      onPressed: pickDateAndTime,
-                      icon: const Icon(
-                        Icons.calendar_today,
-                      ),
-                    ),
-                  )
+                  GestureDetector(
+                    onTap: () => _showTimePicker(),
+                    child: Text(timeString),
+                  ),
                 ],
               ),
               Row(
                 children: [
                   const Text('Turn off'),
                   const SizedBox(
-                    width: 40,
+                    width: 30,
                   ),
                   Switch(
                     value: isTurnOff,

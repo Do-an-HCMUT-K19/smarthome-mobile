@@ -5,6 +5,7 @@ import 'package:smart_home/models/return_msg.dart';
 import 'package:smart_home/models/sensor_info.dart';
 import 'package:smart_home/models/sensor_list.dart';
 import 'package:smart_home/models/statistic_data.dart';
+import 'package:smart_home/models/timer.dart';
 import 'package:smart_home/models/timer_info.dart';
 import 'package:smart_home/models/timer_list.dart';
 import 'package:smart_home/models/user_info.dart';
@@ -269,23 +270,20 @@ class FirebaseUtils {
     var querySnapshot = await FirebaseFirestore.instance
         .collection('timer')
         .where('account_name', isEqualTo: request['AccountName'])
-        .where('delete_state', isEqualTo: false)
         .get();
 
-    List<TimerInform> timers = [];
+    List<Timer> timers = [];
     querySnapshot.docs.forEach((snapshot) {
-      timers.add(TimerInform(
-          snapshot["account_name"],
-          snapshot["duration"],
-          snapshot["frequency"],
-          snapshot["last_record"],
-          snapshot["sensor_id"],
-          snapshot["state"],
-          snapshot["timestamp"],
-          snapshot.id));
+      timers.add(Timer(
+        id: snapshot['timer_id'],
+        dayOfWeek: snapshot['timestamp'],
+        duration: snapshot['duration'],
+        isAutoOff: snapshot['state'],
+        name: snapshot['name'],
+      ));
     });
 
-    return ReturnMessage.data(200, "Get Timer Successfully", Timers(timers));
+    return ReturnMessage.data(200, "Get Timer Successfully", timers);
   }
 
   // request: JSON(AccountName, Duration, Frequency, State, SensorId)
@@ -297,8 +295,6 @@ class FirebaseUtils {
       return ReturnMessage(400, "Missing Account Name Value");
     } else if (request["Duration"] == null) {
       return ReturnMessage(400, "Missing Duration Value");
-    } else if (request["Frequency"] == null) {
-      return ReturnMessage(400, "Missing Frequency Value");
     } else if (request["State"] == null) {
       return ReturnMessage(400, "Missing State Value");
     } else if (request["SensorId"] == null) {
@@ -319,11 +315,12 @@ class FirebaseUtils {
       await FirebaseFirestore.instance.collection('timer').add({
         "account_name": request["AccountName"],
         "duration": request["Duration"],
-        "frequency": request["Frequency"],
-        "timestamp": Timestamp.now(),
+        "timestamp": request["DateOfWeek"],
         "last_record": Timestamp.now(),
         "state": request["State"],
-        "sensor_id": request["SensorId"]
+        "sensor_id": request["SensorId"],
+        "timer_id": request["TimerId"],
+        "name": request["Name"],
       });
     }
 
@@ -336,9 +333,15 @@ class FirebaseUtils {
       return ReturnMessage(400, "Missing Timer ID Value");
     }
 
+    var tmp = await FirebaseFirestore.instance
+        .collection('timer')
+        .where('timer_id', isEqualTo: request['ID'])
+        .limit(1)
+        .get();
+
     await FirebaseFirestore.instance
         .collection('timer')
-        .doc(request['ID'])
+        .doc(tmp.docs[0].id)
         .delete();
 
     return ReturnMessage(200, "Delete Timer Successfully");

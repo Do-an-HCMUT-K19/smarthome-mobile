@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/src/provider.dart';
+import 'package:smart_home/constants/room_type.dart';
 import 'package:smart_home/models/timer.dart';
 import 'package:smart_home/states/timer.dart';
 
 class TimerTile extends StatelessWidget {
+  final RoomType roomType;
   final Timer timer;
-  const TimerTile({required this.timer, Key? key}) : super(key: key);
+  const TimerTile({
+    required this.timer,
+    required this.roomType,
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    var dateTimeString = DateFormat.MEd().add_jms().format(timer.dateTime);
     Size size = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 20),
       height: size.height * 0.15,
-      width: size.width * 0.9,
+      width: size.width * 0.85,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -33,7 +38,9 @@ class TimerTile extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  context.read<TimerState>().removeTimer(timer.id);
+                  context
+                      .read<TimerState>()
+                      .removeTimer(id: timer.id, roomType: roomType);
                 },
                 icon: Icon(
                   Icons.delete,
@@ -46,7 +53,7 @@ class TimerTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                '${dateTimeString}',
+                timer.dayOfWeek,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 15,

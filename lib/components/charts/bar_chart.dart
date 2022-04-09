@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_home/constants/room_type.dart';
 
 class _BarChart extends StatelessWidget {
   _BarChart({Key? key}) : super(key: key);
@@ -198,7 +199,11 @@ class _BarChart extends StatelessWidget {
 }
 
 class BarChartSample3 extends StatefulWidget {
-  const BarChartSample3({Key? key}) : super(key: key);
+  final RoomType roomType;
+  const BarChartSample3({
+    Key? key,
+    required this.roomType,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => BarChartSample3State();

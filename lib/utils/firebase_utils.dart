@@ -277,9 +277,11 @@ class FirebaseUtils {
       timers.add(Timer(
         id: snapshot['timer_id'],
         dayOfWeek: snapshot['timestamp'],
-        duration: snapshot['duration'],
-        isAutoOff: snapshot['state'],
+        duration: Duration(hours: snapshot['duration']),
+        isAutoOff: snapshot['state'] == 'off',
         name: snapshot['name'],
+        sensor_id: snapshot['sensor_id'],
+        timeOfDay: snapshot['time_of_day'],
       ));
     });
 
@@ -321,6 +323,7 @@ class FirebaseUtils {
         "sensor_id": request["SensorId"],
         "timer_id": request["TimerId"],
         "name": request["Name"],
+        "time_of_day": request["TimeOfDay"],
       });
     }
 

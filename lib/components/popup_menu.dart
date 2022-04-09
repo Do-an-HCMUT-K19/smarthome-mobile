@@ -9,6 +9,7 @@ import 'package:smart_home/constants/smart_home_icon_icons.dart';
 import 'package:smart_home/screens/timer_holder.dart';
 import 'package:smart_home/states/main_bottom_bar.dart';
 import 'package:smart_home/states/statistic_state.dart';
+import 'package:smart_home/states/timer.dart';
 
 class PopUpOptionMenu extends StatelessWidget {
   const PopUpOptionMenu({Key? key}) : super(key: key);
@@ -51,6 +52,7 @@ class PopUpOptionMenu extends StatelessWidget {
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (_) => DashboardScreen()));
         } else {
+          await context.read<TimerState>().initValue();
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (_) => TimerHolder()));
         }

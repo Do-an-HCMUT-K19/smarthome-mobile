@@ -48,12 +48,12 @@ class _NewAlarmDialogState extends State<NewAlarmDialog> {
         TextButton(
           onPressed: () {
             context.read<TimerState>().addTimer(
-                  dayOfWeek: chosenDate,
-                  duration: durations,
-                  isAutoOff: isTurnOff,
-                  name: chosenName,
-                  roomType: widget.roomType,
-                );
+                dayOfWeek: chosenDate,
+                duration: durations,
+                isAutoOff: isTurnOff,
+                name: chosenName,
+                roomType: widget.roomType,
+                timeOfDay: chosenTime.format(context));
             Navigator.of(context).pop();
           },
           child: const Text(

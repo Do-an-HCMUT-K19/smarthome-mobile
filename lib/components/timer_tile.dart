@@ -52,12 +52,24 @@ class TimerTile extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(
-                timer.dayOfWeek,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                ),
+              Row(
+                children: [
+                  Text(
+                    timer.dayOfWeek,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    timer.timeOfDay,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
               ),
               Text(
                 '${timer.duration.inHours} hour(s)',

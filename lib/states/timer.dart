@@ -1,50 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:smart_home/constants/room_type.dart';
+import 'package:smart_home/models/return_msg.dart';
 import 'package:smart_home/models/timer.dart';
 import 'package:smart_home/utils/firebase_utils.dart';
 
 class TimerState with ChangeNotifier {
   final Map<RoomType, List<Timer>> _timerList = {
-    RoomType.livingRoom: [
-      Timer(
-        name: 'Bulb #3',
-        dayOfWeek: 'Sat',
-        duration: Duration(days: 1),
-        isAutoOff: true,
-      )
-    ],
-    RoomType.bathRoom: [
-      Timer(
-        name: 'Bulb #1',
-        dayOfWeek: 'Sat',
-        duration: Duration(days: 1),
-        isAutoOff: true,
-      )
-    ],
-    RoomType.bedRoom: [
-      Timer(
-        name: 'Bulb #1',
-        dayOfWeek: 'Sat',
-        duration: Duration(days: 1),
-        isAutoOff: true,
-      )
-    ],
-    RoomType.kitChen: [
-      Timer(
-        name: 'Bulb #2',
-        dayOfWeek: 'Sat',
-        duration: Duration(days: 1),
-        isAutoOff: true,
-      )
-    ],
-    RoomType.garden: [
-      Timer(
-        name: 'Bulb #4',
-        dayOfWeek: 'Sat',
-        duration: Duration(days: 1),
-        isAutoOff: true,
-      )
-    ],
+    RoomType.livingRoom: [],
+    RoomType.bathRoom: [],
+    RoomType.bedRoom: [],
+    RoomType.kitChen: [],
+    RoomType.garden: [],
   };
 
   final Map<RoomType, List<String>> _bulbList = {
@@ -56,10 +22,31 @@ class TimerState with ChangeNotifier {
   };
 
   Future<void> initValue() async {
-    List<Timer> resultList = await FirebaseUtils.getAllTimers({
+    _timerList[RoomType.livingRoom] = [];
+    _timerList[RoomType.bedRoom] = [];
+    _timerList[RoomType.bathRoom] = [];
+    _timerList[RoomType.kitChen] = [];
+    _timerList[RoomType.garden] = [];
+
+    ReturnMessage returnMsg = await FirebaseUtils.getAllTimers({
       'AccountName': 'giacat',
     });
-    resultList.sort((a, b) => a.sensor_id.compareTo(b.sensor_id));
+    List<Timer> timerList = returnMsg.data;
+    timerList.sort((a, b) => a.sensor_id.compareTo(b.sensor_id));
+    timerList.forEach((element) {
+      if (element.sensor_id <= 4) {
+        _timerList[RoomType.livingRoom]!.add(element);
+      } else if (element.sensor_id <= 8) {
+        _timerList[RoomType.bedRoom]!.add(element);
+      } else if (element.sensor_id <= 12) {
+        _timerList[RoomType.bathRoom]!.add(element);
+      } else if (element.sensor_id <= 16) {
+        _timerList[RoomType.kitChen]!.add(element);
+      } else {
+        _timerList[RoomType.garden]!.add(element);
+      }
+    });
+    notifyListeners();
   }
 
   List<String> getBulbList(RoomType roomType) {
@@ -76,14 +63,16 @@ class TimerState with ChangeNotifier {
     required bool isAutoOff,
     required String name,
     required RoomType roomType,
+    required String timeOfDay,
   }) {
     Timer timer = Timer(
       name: name,
       dayOfWeek: dayOfWeek,
       duration: Duration(hours: duration),
       isAutoOff: isAutoOff,
+      sensor_id: _getSensorId(roomType, name),
+      timeOfDay: timeOfDay,
     );
-    timer.sensor_id = _getSensorId(roomType, name);
     _timerList[roomType]!.add(timer);
     FirebaseUtils.setTimer({
       'AccountName': 'giacat',
@@ -92,7 +81,8 @@ class TimerState with ChangeNotifier {
       'SensorId': _getSensorId(roomType, name),
       'DateOfWeek': dayOfWeek,
       'TimerId': timer.id,
-      'Name': name
+      'Name': name,
+      'TimeOfDay': timeOfDay,
     });
     notifyListeners();
   }
@@ -112,8 +102,8 @@ class TimerState with ChangeNotifier {
     int idx = int.parse(name.split('#')[1]);
     List<RoomType> roomList = [
       RoomType.livingRoom,
-      RoomType.bathRoom,
       RoomType.bedRoom,
+      RoomType.bathRoom,
       RoomType.kitChen,
       RoomType.garden
     ];

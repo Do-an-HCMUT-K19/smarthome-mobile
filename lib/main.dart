@@ -1,7 +1,9 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_home/components/bottom_bar.dart';
+import 'package:smart_home/constants/color.dart';
 import 'package:smart_home/utils/firebase_utils.dart';
 import 'package:smart_home/screens/dashboard-screens/livingroom_dashboard.dart';
 import 'package:smart_home/screens/main-screens/bathroom_screen.dart';
@@ -22,6 +24,22 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:smart_home/states/statistic_state.dart';
 import 'package:smart_home/states/timer_state.dart';
 import 'conf/firebase_conf.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  'high_importance_channel',
+  'High Importance Channel',
+  description: 'Description',
+  importance: Importance.high,
+  playSound: true,
+);
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+Future<void> _firebaseMessagingBackgroundHandler(message) async {
+  await Firebase.initializeApp();
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +47,19 @@ void main() async {
     if (Firebase.apps.isEmpty) {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
+      );
+      FirebaseMessaging.onBackgroundMessage(
+          _firebaseMessagingBackgroundHandler);
+
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.createNotificationChannel(channel);
+      await FirebaseMessaging.instance
+          .setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
       );
     } else {
       await Firebase.app();
@@ -64,12 +95,37 @@ void main() async {
         create: (_) => StatisticState(),
       )
     ],
-    child: const SmartHome(),
+    child: SmartHome(),
   ));
 }
 
 class SmartHome extends StatelessWidget {
-  const SmartHome({Key? key}) : super(key: key);
+  SmartHome({Key? key}) : super(key: key) {
+    FirebaseMessaging.onMessage.listen(
+      (event) {
+        RemoteNotification? notification = event.notification;
+        AndroidNotification? android = event.notification?.android;
+
+        if (notification != null && android != null) {
+          flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+                color: primary,
+                playSound: true,
+                icon: '@mipmap/ic_launcher',
+              ),
+            ),
+          );
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

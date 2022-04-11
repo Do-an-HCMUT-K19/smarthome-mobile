@@ -46,7 +46,17 @@ dependencies:
   intl: ^0.17.0
   uuid: ^3.0.6
   scrollable_positioned_list: ^0.2.3
-
+  flutter_local_notifications: ^9.4.0
+  firebase_messaging: ^11.2.7
+dependency_overrides:
+  firebase_messaging_platform_interface: 3.1.6
+# dependency_overrides:
+#   firebase_messaging_platform_interface: 3.1.6
+#   firebase_crashlytics_platform_interface: 3.1.13
+#   cloud_firestore_platform_interface: 5.4.13
+#   firebase_auth_platform_interface: 6.1.11
+#   firebase_storage_platform_interface: 4.0.14
+#   cloud_functions_platform_interface: 5.0.21
 dev_dependencies:
   flutter_test:
     sdk: flutter

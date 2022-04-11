@@ -20,35 +20,20 @@ class TimerHolder extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    Future<void> future = context.read<TimerState>().initValue();
-    return FutureBuilder(
-      builder: (_, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return Scaffold(
-              bottomNavigationBar: BottomNavBar(),
-              extendBodyBehindAppBar: true,
-              appBar: AppBar(
-                title: const Text(
-                  'Thời gian sử dụng đèn (giờ)',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
-                ),
-                elevation: 0,
-                backgroundColor: Colors.black.withOpacity(0),
-              ),
-              body: _pages[context.watch<BottomBarState>().chosenPage]);
-        } else {
-          return Scaffold(
-            backgroundColor: primary,
-            body: Center(
-              child: CircularProgressIndicator(),
+    return Scaffold(
+        bottomNavigationBar: BottomNavBar(),
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          title: const Text(
+            'Thời gian sử dụng đèn (giờ)',
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.white,
             ),
-          );
-        }
-      },
-      future: future,
-    );
+          ),
+          elevation: 0,
+          backgroundColor: Colors.black.withOpacity(0),
+        ),
+        body: _pages[context.watch<BottomBarState>().chosenPage]);
   }
 }

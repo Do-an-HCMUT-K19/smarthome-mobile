@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/src/provider.dart';
 import 'package:smart_home/components/charts/line_chart.dart';
+import 'package:smart_home/components/loading_box.dart';
 import 'package:smart_home/constants/chart_type.dart';
 import 'package:smart_home/constants/color.dart';
 import 'package:smart_home/constants/room_type.dart';
@@ -136,7 +137,7 @@ class _GardenDashboardState extends State<GardenDashboard> {
             ],
           );
         } else {
-          return const Center(child: CircularProgressIndicator());
+          return const LoadingBox();
         }
       },
       future: futureData,

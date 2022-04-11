@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
+import 'package:smart_home/components/loading_box.dart';
+import 'package:smart_home/constants/color.dart';
 import 'package:smart_home/constants/menu_options.dart';
 import 'package:smart_home/constants/room_type.dart';
 import 'package:smart_home/screens/dashboard_holder.dart';
@@ -46,14 +48,24 @@ class PopUpOptionMenu extends StatelessWidget {
       onSelected: (value) async {
         context.read<BottomBarState>().changePage(0);
         if (MenuOptions.dashboard == value) {
-          await context
-              .read<StatisticState>()
-              .renewData(RoomType.livingRoom, DateTime.now());
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (_) => DashboardScreen()));
         } else {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => TimerHolder()));
+          Future<void> future = context.read<TimerState>().initValue();
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => FutureBuilder(
+                    builder: (ctx, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return TimerHolder();
+                      } else {
+                        return Scaffold(
+                          backgroundColor: darkPrimary,
+                          body: const LoadingBox(),
+                        );
+                      }
+                    },
+                    // future: future,
+                  )));
         }
       },
     );

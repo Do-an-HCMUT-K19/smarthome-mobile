@@ -200,6 +200,7 @@ class FirebaseUtils {
       temp: sumTemp / count,
       humid: sumHumid / count,
     ));
+    rs.sort((a, b) => a.hour.compareTo(b.hour));
     return ReturnMessage(200, rs);
   }
 

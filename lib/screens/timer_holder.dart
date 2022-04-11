@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:smart_home/components/bottom_bar.dart';
+import 'package:smart_home/constants/color.dart';
 import 'package:smart_home/constants/room_type.dart';
 import 'package:smart_home/models/timer.dart';
 import 'package:smart_home/screens/timer-screens/timer_screen.dart';
@@ -8,7 +9,8 @@ import 'package:smart_home/states/main_bottom_bar.dart';
 import 'package:smart_home/states/timer_state.dart';
 
 class TimerHolder extends StatelessWidget {
-  const TimerHolder({Key? key}) : super(key: key);
+  bool isReload = false;
+  TimerHolder({Key? key}) : super(key: key);
   final _pages = const [
     TimerScreen(roomType: RoomType.livingRoom),
     TimerScreen(roomType: RoomType.bedRoom),
@@ -18,20 +20,35 @@ class TimerHolder extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        bottomNavigationBar: BottomNavBar(),
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          title: const Text(
-            'Thời gian sử dụng đèn (giờ)',
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
+    Future<void> future = context.read<TimerState>().initValue();
+    return FutureBuilder(
+      builder: (_, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Scaffold(
+              bottomNavigationBar: BottomNavBar(),
+              extendBodyBehindAppBar: true,
+              appBar: AppBar(
+                title: const Text(
+                  'Thời gian sử dụng đèn (giờ)',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
+                ),
+                elevation: 0,
+                backgroundColor: Colors.black.withOpacity(0),
+              ),
+              body: _pages[context.watch<BottomBarState>().chosenPage]);
+        } else {
+          return Scaffold(
+            backgroundColor: primary,
+            body: Center(
+              child: CircularProgressIndicator(),
             ),
-          ),
-          elevation: 0,
-          backgroundColor: Colors.black.withOpacity(0),
-        ),
-        body: _pages[context.watch<BottomBarState>().chosenPage]);
+          );
+        }
+      },
+      future: future,
+    );
   }
 }

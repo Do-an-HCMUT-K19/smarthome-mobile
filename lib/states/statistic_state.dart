@@ -9,8 +9,8 @@ class StatisticState with ChangeNotifier {
   List<FlSpot> _tempData = [];
   List<FlSpot> _humidData = [];
 
-  double _maxXHumid = 24.0;
-  double _maxXTemp = 24.0;
+  double _maxXHumid = 10;
+  double _maxXTemp = 10;
 
   List<FlSpot> get tempData => _tempData;
   List<FlSpot> get humidData => _humidData;

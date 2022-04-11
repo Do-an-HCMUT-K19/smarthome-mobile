@@ -52,7 +52,6 @@ class PopUpOptionMenu extends StatelessWidget {
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (_) => DashboardScreen()));
         } else {
-          await context.read<TimerState>().initValue();
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (_) => TimerHolder()));
         }

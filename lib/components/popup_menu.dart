@@ -64,7 +64,7 @@ class PopUpOptionMenu extends StatelessWidget {
                         );
                       }
                     },
-                    // future: future,
+                    future: future,
                   )));
         }
       },

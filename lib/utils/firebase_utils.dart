@@ -253,17 +253,6 @@ class FirebaseUtils {
         .snapshots();
 
     List<SensorInform> sensors = [];
-    querySnapshot.listen((event) {
-      print(event);
-    });
-
-    // querySnapshot.docs.forEach((snapshot) {
-    //   sensors.add(SensorInform(snapshot["area"], snapshot["name"],
-    //       snapshot["sensor_id"], snapshot["account_name"], snapshot["state"]));
-    // });
-
-    // return ReturnMessage.data(
-    //     200, "Get Information Successfully", Sensors(sensors));
     return ReturnMessage.data(200, "Get info success", querySnapshot);
   }
 

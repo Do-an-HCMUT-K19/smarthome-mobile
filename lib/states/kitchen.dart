@@ -4,7 +4,7 @@ import 'package:smart_home/models/return_msg.dart';
 import 'package:smart_home/models/sensor_info.dart';
 
 class KitchenState with ChangeNotifier {
-  final List<SensorInform> _lightList = [];
+  List<SensorInform> _lightList = [];
   double _humid = 10.0;
   double _temp = 16.0;
 
@@ -43,11 +43,21 @@ class KitchenState with ChangeNotifier {
       'AccountName': 'giacat',
       'Area': 'kitchen',
     });
-    for (var element in msg.data.sensors) {
-      _lightList.add(element);
-    }
-
-    _lightList.sort((a, b) => a.sensor_id >= b.sensor_id ? 1 : 0);
+    var lightSnapshot = msg.data;
+    lightSnapshot.listen((event) {
+      _lightList = [];
+      event.docs.forEach((e) {
+        _lightList.add(SensorInform(
+          e['area'],
+          e['name'],
+          e['sensor_id'],
+          e['account_name'],
+          e['state'],
+        ));
+      });
+      _lightList.sort((a, b) => a.sensor_id.compareTo(b.sensor_id));
+      notifyListeners();
+    });
   }
 
   double get temp => _temp;

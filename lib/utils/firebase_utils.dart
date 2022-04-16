@@ -173,6 +173,7 @@ class FirebaseUtils {
     );
 
     if (rsTmp.isEmpty) return ReturnMessage(200, []);
+    rsTmp.sort((a, b) => a.hour.compareTo(b.hour));
     List<EnvData> rs = [];
     int curHour = rsTmp[0].hour;
     double sumHumid = 0;
@@ -249,17 +250,21 @@ class FirebaseUtils {
         .collection('sensor_information')
         .where('account_name', isEqualTo: request['AccountName'])
         .where('area', isEqualTo: request['Area'])
-        .get();
+        .snapshots();
 
     List<SensorInform> sensors = [];
-
-    querySnapshot.docs.forEach((snapshot) {
-      sensors.add(SensorInform(snapshot["area"], snapshot["name"],
-          snapshot["sensor_id"], snapshot["account_name"], snapshot["state"]));
+    querySnapshot.listen((event) {
+      print(event);
     });
 
-    return ReturnMessage.data(
-        200, "Get Information Successfully", Sensors(sensors));
+    // querySnapshot.docs.forEach((snapshot) {
+    //   sensors.add(SensorInform(snapshot["area"], snapshot["name"],
+    //       snapshot["sensor_id"], snapshot["account_name"], snapshot["state"]));
+    // });
+
+    // return ReturnMessage.data(
+    //     200, "Get Information Successfully", Sensors(sensors));
+    return ReturnMessage.data(200, "Get info success", querySnapshot);
   }
 
   // request: JSON(AccountName)

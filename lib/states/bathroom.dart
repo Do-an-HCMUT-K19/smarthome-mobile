@@ -4,7 +4,7 @@ import 'package:smart_home/models/return_msg.dart';
 import 'package:smart_home/models/sensor_info.dart';
 
 class BathRoomState with ChangeNotifier {
-  final List<SensorInform> _lightList = [];
+  List<SensorInform> _lightList = [];
   double _humid = 10.0;
   double _temp = 16.0;
 
@@ -35,13 +35,23 @@ class BathRoomState with ChangeNotifier {
       this._temp = event.docs[0]['env_temperature'].toDouble();
       notifyListeners();
     });
-    ReturnMessage msg = await FirebaseUtils.getAreaSensors({
-      'AccountName': 'giacat',
-      'Area': 'bath_room',
+    ReturnMessage msg = await FirebaseUtils.getAreaSensors(
+        {'AccountName': 'giacat', 'Area': 'bath_room'});
+    var lightSnapshot = msg.data;
+    lightSnapshot.listen((event) {
+      _lightList = [];
+      event.docs.forEach((e) {
+        _lightList.add(SensorInform(
+          e['area'],
+          e['name'],
+          e['sensor_id'],
+          e['account_name'],
+          e['state'],
+        ));
+      });
+      _lightList.sort((a, b) => a.sensor_id.compareTo(b.sensor_id));
+      notifyListeners();
     });
-    for (var element in msg.data.sensors) {
-      _lightList.add(element);
-    }
   }
 
   bool getLightState(int idx) {

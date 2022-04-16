@@ -5,7 +5,7 @@ import 'package:smart_home/models/sensor_info.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 
 class LivingRoomState with ChangeNotifier {
-  final List<SensorInform> _lightList = [];
+  List<SensorInform> _lightList = [];
   double _humid = 10.0;
   double _temp = 16.0;
 
@@ -44,10 +44,22 @@ class LivingRoomState with ChangeNotifier {
       'AccountName': 'giacat',
       'Area': 'living_room',
     });
-    for (var element in msg.data.sensors) {
-      _lightList.add(element);
-    }
-    _lightList.sort((a, b) => a.sensor_id >= b.sensor_id ? 1 : 0);
+
+    var lightSnapshot = msg.data;
+    lightSnapshot.listen((event) {
+      _lightList = [];
+      event.docs.forEach((e) {
+        _lightList.add(SensorInform(
+          e['area'],
+          e['name'],
+          e['sensor_id'],
+          e['account_name'],
+          e['state'],
+        ));
+      });
+      _lightList.sort((a, b) => a.sensor_id.compareTo(b.sensor_id));
+      notifyListeners();
+    });
   }
 
   bool getLightState(int idx) {

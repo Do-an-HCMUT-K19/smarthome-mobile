@@ -8,6 +8,7 @@ import 'package:smart_home/states/bathroom.dart';
 import 'package:smart_home/states/bedroom.dart';
 import 'package:smart_home/states/garden.dart';
 import 'package:smart_home/states/kitchen.dart';
+import 'package:smart_home/states/light_statistic.dart';
 import 'package:smart_home/states/livingroom.dart';
 import 'package:smart_home/states/main_bottom_bar.dart';
 
@@ -84,7 +85,10 @@ Future<void> main() async {
       ),
       ChangeNotifierProvider(
         create: (_) => StatisticState(),
-      )
+      ),
+      ChangeNotifierProvider(
+        create: (_) => LightStatistic(),
+      ),
     ],
     child: SmartHome(),
   ));

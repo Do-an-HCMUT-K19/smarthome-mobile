@@ -24,9 +24,10 @@ class WelcomBar extends StatelessWidget {
           end: Alignment.bottomCenter,
           colors: [
             darkPrimary,
-            darkPrimary.withOpacity(0.9),
+            darkPrimary.withOpacity(0.8),
+            darkPrimary.withOpacity(0.7),
             darkPrimary.withOpacity(0.5),
-            darkPrimary.withOpacity(0.05)
+            darkPrimary.withOpacity(0)
           ],
         ),
       ),

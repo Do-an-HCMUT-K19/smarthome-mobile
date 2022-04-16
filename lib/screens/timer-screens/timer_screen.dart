@@ -7,6 +7,7 @@ import 'package:smart_home/components/charts/bar_chart.dart';
 import 'package:smart_home/components/timer_tile.dart';
 import 'package:smart_home/constants/color.dart';
 import 'package:smart_home/constants/room_type.dart';
+import 'package:smart_home/states/light_statistic.dart';
 import 'package:smart_home/states/timer_state.dart';
 
 class TimerScreen extends StatelessWidget {
@@ -15,6 +16,7 @@ class TimerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    context.read<LightStatistic>().a;
     return Container(
       color: darkPrimary,
       width: size.width,

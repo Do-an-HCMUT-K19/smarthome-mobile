@@ -503,7 +503,7 @@ class FirebaseUtils {
           check = true;
           bool check_date = false;
           var time_start =
-              DateFormat('dd/MM/yyyy').format(snapshot["time_start"].toDate());
+              DateFormat('yyyy-MM-dd').format(snapshot["time_start"].toDate());
 
           for (var time_duration in sensor_data.sensor_data) {
             if (time_duration.date == time_start) {
@@ -513,8 +513,8 @@ class FirebaseUtils {
           }
 
           if (!check_date) {
-            sensor_data.sensor_data
-                .add(TimeDuration(time_start, snapshot["duration"]));
+            sensor_data.sensor_data.add(
+                TimeDuration(DateTime.parse(time_start), snapshot["duration"]));
           }
         }
       }
@@ -522,7 +522,8 @@ class FirebaseUtils {
       if (!check) {
         sensors_data.add(LogSensorData(sensor_id, [
           TimeDuration(
-              DateFormat('dd/MM/yyyy').format(snapshot["time_start"].toDate()),
+              DateTime.parse(DateFormat('yyyy-MM-dd')
+                  .format(snapshot["time_start"].toDate())),
               snapshot["duration"])
         ]));
       }

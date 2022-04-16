@@ -19,8 +19,10 @@ class InfoDisplay extends StatelessWidget {
       return 'Light';
     } else if (type == Info.temperature) {
       return 'Temperature';
+    } else if (type == Info.air_humidity) {
+      return 'Air Humid';
     }
-    return 'Humidity';
+    return 'Land Humid';
   }
 
   @override

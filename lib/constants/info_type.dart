@@ -1,5 +1,6 @@
 enum Info {
   temperature,
   light,
-  humidity,
+  land_humidity,
+  air_humidity,
 }

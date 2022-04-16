@@ -61,7 +61,7 @@ class _BedRoomControlState extends State<BedRoomControl> {
                   type: Info.temperature,
                   data: context.watch<BedRoomState>().temp.toInt()),
               InfoDisplay(
-                  type: Info.humidity,
+                  type: Info.air_humidity,
                   data: context.watch<BedRoomState>().humid.toInt())
             ],
           ),

@@ -63,6 +63,7 @@ class FuncButton extends StatelessWidget {
               ),
               Text(
                 '$label',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: isActive ? Colors.white : inActive,
                 ),

@@ -61,7 +61,7 @@ class _LivingRoomControlState extends State<LivingRoomControl> {
                   type: Info.temperature,
                   data: context.watch<LivingRoomState>().temp.toInt()),
               InfoDisplay(
-                  type: Info.humidity,
+                  type: Info.air_humidity,
                   data: context.watch<LivingRoomState>().humid.toInt())
             ],
           ),

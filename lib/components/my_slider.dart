@@ -42,8 +42,8 @@ class _MySliderState extends State<MySlider> {
             ),
           ),
           Slider(
-            max: 40,
-            min: 5,
+            max: 100,
+            min: 30,
             value: widget.value,
             onChanged: (value) {
               isChange = true;

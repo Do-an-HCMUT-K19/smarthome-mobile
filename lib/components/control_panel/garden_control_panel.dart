@@ -59,9 +59,12 @@ class _GardenControlState extends State<GardenControl> {
             children: [
               InfoDisplay(
                   type: Info.temperature,
-                  data: context.watch<GardenState>().temp.toInt().toInt()),
+                  data: context.watch<GardenState>().temp.toInt()),
               InfoDisplay(
-                  type: Info.humidity,
+                  type: Info.air_humidity,
+                  data: context.watch<GardenState>().humid.toInt()),
+              InfoDisplay(
+                  type: Info.land_humidity,
                   data: context.watch<GardenState>().humid.toInt())
             ],
           ),
@@ -92,7 +95,7 @@ class _GardenControlState extends State<GardenControl> {
                   child: FuncButton(
                     isActive: chosing == 1,
                     icon: SmartHomeIcon.colorize,
-                    label: 'Humid',
+                    label: 'Land\nHumid',
                   ),
                 ),
             ],
@@ -125,6 +128,7 @@ class _GardenControlState extends State<GardenControl> {
               cautionBound: 40,
               callBack: context.read<GardenState>().changeHumidity,
             ),
+
           // humid controller
         ],
       ),

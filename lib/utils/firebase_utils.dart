@@ -9,6 +9,8 @@ import 'package:smart_home/models/timer.dart';
 import 'package:smart_home/models/timer_info.dart';
 import 'package:smart_home/models/timer_list.dart';
 import 'package:smart_home/models/user_info.dart';
+import 'package:smart_home/models/statistic_logsensor_data.dart';
+import 'package:intl/intl.dart';
 
 class FirebaseUtils {
   // request: JSON(AccountName, Password)
@@ -365,7 +367,7 @@ class FirebaseUtils {
 
     await FirebaseFirestore.instance.collection('log_sensor').add({
       'account_name': request['AccountName'],
-      'duration': 0,
+      'duration': -1,
       'sensor_id': request['SensorId'],
       'time_start': Timestamp.now()
     });
@@ -420,5 +422,106 @@ class FirebaseUtils {
         .update({'state': 'off'});
 
     return ReturnMessage(200, "Turn Off Successfully");
+  }
+
+  // request: JSON(AccountName, SensorId, LandHumidity)
+  static setTargetEnv(request) async {
+    if (request["AccountName"] == null) {
+      return ReturnMessage(400, "Missing Account Name Value");
+    } else if (request["SensorId"] == null) {
+      return ReturnMessage(400, "Missing SensorId Value");
+    } else if (request["LandHumidity"] == null) {
+      return ReturnMessage(400, "Missing Land Humidity Value");
+    }
+
+    var query = await FirebaseFirestore.instance
+        .collection("target_env")
+        .where("account_name", isEqualTo: request["AccountName"])
+        .where("sensor_id", isEqualTo: request["SensorId"])
+        .get();
+
+    if (query.docs.isEmpty) {
+      await FirebaseFirestore.instance.collection("target_env").add({
+        "account_name": request["AccountName"],
+        "sensor_id": request["SensorId"],
+        "land_humidity": request["LandHumidity"]
+      });
+    } else {
+      await FirebaseFirestore.instance
+          .collection("target_env")
+          .doc(query.docs[0].id)
+          .update({"land_humidity": request["LandHumidity"]});
+    }
+    return ReturnMessage(200, "Set Target Environment Successfully");
+  }
+
+  // request: JSON(AccountName, SensorId)
+  static getTargetEnv(request) async {
+    if (request["AccountName"] == null) {
+      return ReturnMessage(400, "Missing Account Name Value");
+    } else if (request["SensorId"] == null) {
+      return ReturnMessage(400, "Missing SensorId Value");
+    }
+
+    var querySnapshot = await FirebaseFirestore.instance
+        .collection("target_env")
+        .where("account_name", isEqualTo: request["AccountName"])
+        .where("sensor_id", isEqualTo: request["SensorId"])
+        .snapshots();
+
+    return ReturnMessage.data(
+        200, "Get Target Environment Successfully", querySnapshot);
+  }
+
+  // request: JSON(AccountName)
+  static getStatisticLogSensor(request) async {
+    if (request["AccountName"] == null) {
+      return ReturnMessage(400, "Missing Account Name Value");
+    }
+
+    var querySnapshot = await FirebaseFirestore.instance
+        .collection("log_sensor")
+        .where("account_name", isEqualTo: request["AccountName"])
+        .orderBy("time_start", descending: true)
+        .get();
+
+    List<LogSensorData> sensors_data = [];
+
+    for (var snapshot in querySnapshot.docs) {
+      var sensor_id = snapshot["sensor_id"];
+      bool check = false;
+
+      for (var sensor_data in sensors_data) {
+        if (sensor_data.sensor_id == sensor_id) {
+          check = true;
+          bool check_date = false;
+          var time_start =
+              DateFormat('dd/MM/yyyy').format(snapshot["time_start"].toDate());
+
+          for (var time_duration in sensor_data.sensor_data) {
+            if (time_duration.date == time_start) {
+              check_date = true;
+              time_duration.duration += snapshot["duration"];
+            }
+          }
+
+          if (!check_date) {
+            sensor_data.sensor_data
+                .add(TimeDuration(time_start, snapshot["duration"]));
+          }
+        }
+      }
+
+      if (!check) {
+        sensors_data.add(LogSensorData(sensor_id, [
+          TimeDuration(
+              DateFormat('dd/MM/yyyy').format(snapshot["time_start"].toDate()),
+              snapshot["duration"])
+        ]));
+      }
+    }
+
+    return ReturnMessage.data(
+        200, "Get Log Sensor Data Successfully", sensors_data);
   }
 }

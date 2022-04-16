@@ -167,44 +167,51 @@ class FirebaseUtils {
       (element) {
         if (element['timestamp'].compareTo(request['Timestamp']) < 0) {
           rsTmp.add(EnvData(
-              hour: element['timestamp'].toDate().hour,
-              humid: element['air_humidity'].toDouble(),
-              temp: element['env_temperature'].toDouble()));
+            hour: element['timestamp'].toDate().hour,
+            airHumid: element['air_humidity'].toDouble(),
+            temp: element['env_temperature'].toDouble(),
+            landHumid: element['land_humidity'].toDouble(),
+          ));
         }
       },
     );
 
-    if (rsTmp.isEmpty) return ReturnMessage(200, []);
+    if (rsTmp.isEmpty) return ReturnMessage.data(200, '', []);
     rsTmp.sort((a, b) => a.hour.compareTo(b.hour));
     List<EnvData> rs = [];
     int curHour = rsTmp[0].hour;
-    double sumHumid = 0;
+    double sumAirHumid = 0;
     double sumTemp = 0;
+    double sumLandHumid = 0;
     int count = 0;
     for (var i in rsTmp) {
       if (curHour == i.hour) {
         count++;
-        sumHumid += i.humid;
+        sumLandHumid += i.landHumid;
         sumTemp += i.temp;
+        sumAirHumid += i.airHumid;
       } else {
         rs.add(EnvData(
           hour: curHour,
           temp: sumTemp / count,
-          humid: sumHumid / count,
+          landHumid: sumLandHumid / count,
+          airHumid: sumAirHumid / count,
         ));
         count = 1;
         curHour = i.hour;
-        sumHumid = i.humid;
+        sumLandHumid = i.landHumid;
         sumTemp = i.temp;
+        sumAirHumid = i.airHumid;
       }
     }
     rs.add(EnvData(
       hour: curHour,
       temp: sumTemp / count,
-      humid: sumHumid / count,
+      landHumid: sumLandHumid / count,
+      airHumid: sumAirHumid / count,
     ));
     rs.sort((a, b) => a.hour.compareTo(b.hour));
-    return ReturnMessage(200, rs);
+    return ReturnMessage.data(200, 'Done', rs);
   }
 
   // request: JSON(AccountName)

@@ -6,6 +6,7 @@ import 'package:smart_home/components/loading_box.dart';
 import 'package:smart_home/constants/chart_type.dart';
 import 'package:smart_home/constants/color.dart';
 import 'package:smart_home/constants/room_type.dart';
+import 'package:smart_home/states/garden.dart';
 import 'package:smart_home/states/statistic_state.dart';
 
 class GardenDashboard extends StatefulWidget {
@@ -68,7 +69,7 @@ class _GardenDashboardState extends State<GardenDashboard> {
                           );
                         },
                         context: context,
-                        initialDate: DateTime.now(),
+                        initialDate: context.read<StatisticState>().chosenDate,
                         firstDate: DateTime(2020),
                         lastDate: DateTime.now(),
                       ).then(
@@ -115,7 +116,7 @@ class _GardenDashboardState extends State<GardenDashboard> {
                     const SizedBox(height: 50),
                     const Center(
                       child: Text(
-                        'Humidity',
+                        'Air Humidity',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 30,
@@ -126,11 +127,35 @@ class _GardenDashboardState extends State<GardenDashboard> {
                       height: 20,
                     ),
                     LineChartSample2(
-                      chartType: ChartType.humidity,
-                      data: context.watch<StatisticState>().humidData,
-                      maxX: context.watch<StatisticState>().maxXHumid,
+                      chartType: ChartType.air_humidity,
+                      data: context.watch<StatisticState>().humidAirData,
+                      maxX: context.watch<StatisticState>().maxXHumidAir,
                     ),
                     const SizedBox(height: 100),
+                    Divider(
+                      height: 5,
+                      indent: 100,
+                      endIndent: 100,
+                      color: Colors.white.withOpacity(0.75),
+                    ),
+                    const SizedBox(height: 50),
+                    const Center(
+                      child: Text(
+                        'Land Humidity',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 30,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    LineChartSample2(
+                      chartType: ChartType.land_humidity,
+                      data: context.watch<StatisticState>().humidLandData,
+                      maxX: context.watch<StatisticState>().maxXHumidLand,
+                    ),
                   ],
                 ),
               ),

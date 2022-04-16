@@ -1,5 +1,6 @@
 enum ChartType {
   light,
-  humidity,
+  air_humidity,
   temperature,
+  land_humidity,
 }

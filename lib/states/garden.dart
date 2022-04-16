@@ -6,8 +6,10 @@ import 'package:smart_home/models/sensor_info.dart';
 class GardenState with ChangeNotifier {
   List<SensorInform> _lightList = [];
   double _landHumid = 50.0;
-  double _airHumid = 50.0;
+  double _airHumid = 10.0;
   double _temp = 16.0;
+
+  double _targetHumid = 0.0;
 
   final bool _isControlTemp = false;
   final bool _isControlHumid = true;
@@ -26,7 +28,11 @@ class GardenState with ChangeNotifier {
 
   double get temp => _temp;
 
-  double get humid => _landHumid;
+  double get landHumid => _landHumid;
+
+  double get airHumid => _airHumid;
+
+  double get targetHumid => _targetHumid;
 
   GardenState() {
     initValue();
@@ -39,11 +45,11 @@ class GardenState with ChangeNotifier {
       'Area': 'garden',
     });
     var snapshot = returnMessage.data;
-    print(snapshot);
     snapshot.listen((event) {
-      this._landHumid = event.docs[0]['land_humidity'].toDouble();
-      this._temp = event.docs[0]['env_temperature'].toDouble();
-      this._airHumid = event.docs[0]['air_humidity'].toDouble();
+      _landHumid = event.docs[0]['land_humidity'].toDouble();
+      _temp = event.docs[0]['env_temperature'].toDouble();
+      _airHumid = event.docs[0]['air_humidity'].toDouble();
+      _targetHumid = _landHumid;
       notifyListeners();
     });
 
@@ -68,30 +74,15 @@ class GardenState with ChangeNotifier {
     });
   }
 
-  // void changeTemperature(double temp) {
-  //   _temp = temp;
-  //   updateDataFirebase();
-  //   notifyListeners();
-  //   initValue();
-  // }
-
   void changeHumidity(double humid) async {
-    _landHumid = humid;
-    // updateDataFirebase();
-    addTargetEnv();
-    initValue();
+    _targetHumid = humid;
+    FirebaseUtils.setTargetEnv({
+      'AccountName': 'giacat',
+      'SensorId': 19,
+      'LandHumidity': humid.toInt(),
+    });
+    notifyListeners();
   }
-
-  void addTargetEnv() async {}
-  // void updateDataFirebase() async {
-  //   await FirebaseUtils.addRealtimeDatabase({
-  //     'AirHumidity': this._landHumid,
-  //     'EnvTemperature': this._temp,
-  //     'LandHumidity': 0,
-  //     'AccountName': 'giacat',
-  //     'Area': 'garden',
-  //   });
-  // }
 
   void changeLightState(int idx, bool value) {
     _lightList[idx].state = value ? 'on' : 'off';

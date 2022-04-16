@@ -68,7 +68,7 @@ class _LivingRoomDashboardState extends State<LivingRoomDashboard> {
                           );
                         },
                         context: context,
-                        initialDate: DateTime.now(),
+                        initialDate: context.read<StatisticState>().chosenDate,
                         firstDate: DateTime(2020),
                         lastDate: DateTime.now(),
                       ).then(
@@ -126,9 +126,9 @@ class _LivingRoomDashboardState extends State<LivingRoomDashboard> {
                       height: 20,
                     ),
                     LineChartSample2(
-                      chartType: ChartType.humidity,
-                      data: context.watch<StatisticState>().humidData,
-                      maxX: context.watch<StatisticState>().maxXHumid,
+                      chartType: ChartType.air_humidity,
+                      data: context.watch<StatisticState>().humidAirData,
+                      maxX: context.watch<StatisticState>().maxXHumidAir,
                     ),
                     const SizedBox(height: 100),
                   ],

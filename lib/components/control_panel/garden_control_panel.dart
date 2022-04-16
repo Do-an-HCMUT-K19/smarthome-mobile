@@ -62,10 +62,10 @@ class _GardenControlState extends State<GardenControl> {
                   data: context.watch<GardenState>().temp.toInt()),
               InfoDisplay(
                   type: Info.air_humidity,
-                  data: context.watch<GardenState>().humid.toInt()),
+                  data: context.watch<GardenState>().airHumid.toInt()),
               InfoDisplay(
                   type: Info.land_humidity,
-                  data: context.watch<GardenState>().humid.toInt())
+                  data: context.watch<GardenState>().landHumid.toInt())
             ],
           ),
           const SizedBox(
@@ -122,7 +122,7 @@ class _GardenControlState extends State<GardenControl> {
             ),
           if (chosing == 1)
             MySlider(
-              value: context.read<GardenState>().humid,
+              value: context.watch<GardenState>().targetHumid,
               lowerBound: 5,
               upperBound: 50,
               cautionBound: 40,

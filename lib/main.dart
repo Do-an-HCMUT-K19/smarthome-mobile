@@ -2,15 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:smart_home/components/bottom_bar.dart';
 import 'package:smart_home/constants/color.dart';
-import 'package:smart_home/utils/firebase_utils.dart';
-import 'package:smart_home/screens/dashboard-screens/livingroom_dashboard.dart';
-import 'package:smart_home/screens/main-screens/bathroom_screen.dart';
-import 'package:smart_home/screens/main-screens/bedroom_screen.dart';
-import 'package:smart_home/screens/main-screens/garden_screen.dart';
-import 'package:smart_home/screens/main-screens/kitchen_screen.dart';
-import 'package:smart_home/screens/main-screens/livingroom_screen.dart';
 import 'package:smart_home/screens/main_holder.dart';
 import 'package:smart_home/states/bathroom.dart';
 import 'package:smart_home/states/bedroom.dart';
@@ -19,7 +11,6 @@ import 'package:smart_home/states/kitchen.dart';
 import 'package:smart_home/states/livingroom.dart';
 import 'package:smart_home/states/main_bottom_bar.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:smart_home/states/statistic_state.dart';
 import 'package:smart_home/states/timer_state.dart';
@@ -41,7 +32,7 @@ Future<void> _firebaseMessagingBackgroundHandler(message) async {
   await Firebase.initializeApp();
 }
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
     if (Firebase.apps.isEmpty) {

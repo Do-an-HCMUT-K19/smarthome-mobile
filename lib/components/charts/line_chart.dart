@@ -101,7 +101,11 @@ class _LineChartSample2State extends State<LineChartSample2> {
           getTitles: (value) {
             String unit =
                 widget.chartType == ChartType.temperature ? '°C' : '%';
-            if (value % 10 == 0) {
+            if (widget.chartType == ChartType.temperature && value % 10 == 0) {
+              return value.toInt().toString() + unit;
+            } else if ((widget.chartType == ChartType.land_humidity ||
+                    widget.chartType == ChartType.air_humidity) &&
+                value % 20 == 0) {
               return value.toInt().toString() + unit;
             }
             return '';
@@ -119,7 +123,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       minX: 0,
       maxX: widget.maxX,
       minY: 0,
-      maxY: widget.chartType == ChartType.temperature ? 40 : 50,
+      maxY: widget.chartType == ChartType.temperature ? 40 : 100,
       lineBarsData: [
         LineChartBarData(
           spots: widget.data,

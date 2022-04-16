@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 import 'package:smart_home/constants/color.dart';
+import 'package:smart_home/states/garden.dart';
 
 class MySlider extends StatefulWidget {
   double value;
@@ -35,7 +37,7 @@ class _MySliderState extends State<MySlider> {
       child: Column(
         children: [
           Text(
-            '${widget.value.round().toInt()}%',
+            '${widget.value.toInt()}%',
             style: TextStyle(
               color: Colors.white,
               fontSize: 60,
@@ -43,7 +45,7 @@ class _MySliderState extends State<MySlider> {
           ),
           Slider(
             max: 100,
-            min: 30,
+            min: 0,
             value: widget.value,
             onChanged: (value) {
               isChange = true;
@@ -63,7 +65,6 @@ class _MySliderState extends State<MySlider> {
                   onTap: () {
                     isChange = false;
                     widget.callBack(widget.value.round().toDouble());
-                    tempValue = widget.value;
                   },
                   child: Container(
                       height: 70,
@@ -94,7 +95,7 @@ class _MySliderState extends State<MySlider> {
                               ),
                             ),
                           ),
-                          Center(
+                          const Center(
                             child: Text(
                               'Confirm',
                               style: TextStyle(

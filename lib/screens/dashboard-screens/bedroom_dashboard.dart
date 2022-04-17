@@ -21,13 +21,16 @@ class _BedRoomDashboardState extends State<BedRoomDashboard> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final futureData = _isRebuild
-        ? Future(() => null)
-        : context
-            .read<StatisticState>()
-            .renewData(RoomType.bedRoom, DateTime.now());
+        ? Future.delayed(const Duration(milliseconds: 500), () => null)
+        : Future.delayed(
+            const Duration(milliseconds: 300),
+            () => context
+                .read<StatisticState>()
+                .renewData(RoomType.bedRoom, DateTime.now()));
     return FutureBuilder(
       builder: (ctx, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          _isRebuild = true;
           return CustomScrollView(
             slivers: [
               SliverAppBar(

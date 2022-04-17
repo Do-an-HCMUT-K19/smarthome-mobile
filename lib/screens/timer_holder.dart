@@ -11,7 +11,7 @@ import 'package:smart_home/states/timer_state.dart';
 class TimerHolder extends StatelessWidget {
   bool isReload = false;
   TimerHolder({Key? key}) : super(key: key);
-  final _pages = const [
+  final _pages = [
     TimerScreen(roomType: RoomType.livingRoom),
     TimerScreen(roomType: RoomType.bedRoom),
     TimerScreen(roomType: RoomType.bathRoom),

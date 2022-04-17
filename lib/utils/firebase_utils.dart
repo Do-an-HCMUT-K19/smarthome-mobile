@@ -165,7 +165,11 @@ class FirebaseUtils {
     List<EnvData> rsTmp = [];
     querySnapshot.docs.forEach(
       (element) {
-        if (element['timestamp'].compareTo(request['Timestamp']) < 0) {
+        String elementTime =
+            DateFormat('yyyy-MM-dd').format(element['timestamp'].toDate());
+        String requestedTime =
+            DateFormat('yyyy-MM-dd').format(request['Timestamp'].toDate());
+        if (elementTime.compareTo(requestedTime) == 0) {
           rsTmp.add(EnvData(
             hour: element['timestamp'].toDate().hour,
             airHumid: element['air_humidity'].toDouble(),

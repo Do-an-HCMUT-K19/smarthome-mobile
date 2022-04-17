@@ -18,7 +18,7 @@ class LightStatistic with ChangeNotifier {
     initData();
   }
 
-  void initData() async {
+  Future<void> initData() async {
     ReturnMessage msg =
         await FirebaseUtils.getStatisticLogSensor({'AccountName': 'giacat'});
     List<LogSensorData> dataList = msg.data;
@@ -70,5 +70,20 @@ class LightStatistic with ChangeNotifier {
         }
       });
     });
+  }
+
+  List<int> getLightData(RoomType roomType) {
+    List<int> rs = [];
+    for (int i = 0; i < 7; i++) {
+      String tmpKey = DateFormat('yyyy-MM-dd')
+          .format(DateTime.now().subtract(Duration(days: i)));
+      if (data[roomType]![tmpKey] == null) {
+        rs.add(0);
+      } else {
+        rs.add(data[roomType]![tmpKey]!.toInt());
+      }
+    }
+
+    return rs.reversed.toList();
   }
 }

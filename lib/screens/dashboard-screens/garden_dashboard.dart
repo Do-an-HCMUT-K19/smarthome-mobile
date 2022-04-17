@@ -22,12 +22,15 @@ class _GardenDashboardState extends State<GardenDashboard> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final futureData = _isRebuild
-        ? Future(() => null)
-        : context
-            .read<StatisticState>()
-            .renewData(RoomType.garden, DateTime.now());
+        ? Future.delayed(const Duration(milliseconds: 500), () => null)
+        : Future.delayed(
+            const Duration(milliseconds: 300),
+            () => context
+                .read<StatisticState>()
+                .renewData(RoomType.garden, DateTime.now()));
     return FutureBuilder(
       builder: (ctx, snapshot) {
+        _isRebuild = true;
         if (snapshot.connectionState == ConnectionState.done) {
           return CustomScrollView(
             slivers: [

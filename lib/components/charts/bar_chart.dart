@@ -1,9 +1,15 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/src/provider.dart';
 import 'package:smart_home/constants/room_type.dart';
+import 'package:smart_home/states/light_statistic.dart';
 
 class _BarChart extends StatelessWidget {
-  _BarChart({Key? key}) : super(key: key);
+  _BarChart({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -60,25 +66,14 @@ class _BarChart extends StatelessWidget {
     String text;
     switch (value.toInt()) {
       case 0:
-        text = 'Mn';
-        break;
       case 1:
-        text = 'Te';
-        break;
       case 2:
-        text = 'Wd';
-        break;
       case 3:
-        text = 'Tu';
-        break;
       case 4:
-        text = 'Fr';
-        break;
       case 5:
-        text = 'St';
-        break;
       case 6:
-        text = 'Sn';
+        text = DateFormat('E')
+            .format(DateTime.now().subtract(Duration(days: 6 - value.toInt())));
         break;
       default:
         text = '';
@@ -114,7 +109,7 @@ class _BarChart extends StatelessWidget {
     Colors.lightBlueAccent,
     Colors.greenAccent,
   ];
-  List<int> data = [10, 5, 11, 6, 24, 9];
+  List<int> data = [];
   List<BarChartGroupData> getBarGroups() {
     List<BarChartGroupData> dataGroups = [];
     for (int i = 0; i < data.length; i++) {
@@ -123,7 +118,7 @@ class _BarChart extends StatelessWidget {
           x: i,
           barRods: [
             BarChartRodData(
-              toY: data[i].toDouble(),
+              toY: data[i].toDouble() / 3600,
               colors: _barsGradient,
             )
           ],
@@ -219,7 +214,9 @@ class BarChartSample3State extends State<BarChartSample3> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         color: const Color(0xff2c4260),
         child: Container(
-          child: _BarChart(),
+          child: _BarChart(
+              data:
+                  context.read<LightStatistic>().getLightData(widget.roomType)),
           padding: EdgeInsets.only(top: 35),
         ),
       ),
